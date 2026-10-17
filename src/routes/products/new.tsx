@@ -1,6 +1,6 @@
 import { Link, createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, Loader2, Sparkles, Upload, X } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { AdminShell } from "@/components/AdminShell";
@@ -66,7 +66,7 @@ function NewProductPage() {
 				canvas.height = height;
 				const ctx = canvas.getContext("2d");
 				if (!ctx) {
-					setImageError("Gagal merender canvas.");
+					setImageError("Gagal memproses gambar pada canvas.");
 					return;
 				}
 
@@ -74,11 +74,14 @@ function NewProductPage() {
 				const resizedDataUrl = canvas.toDataURL("image/jpeg", 0.85);
 
 				if (resizedDataUrl.length > 700000) {
-					setImageError("Ukuran gambar melebihi 512KB.");
+					setImageError("Ukuran gambar terlalu besar setelah kompresi.");
 					return;
 				}
 
 				setImageUrl(resizedDataUrl);
+			};
+			img.onerror = () => {
+				setImageError("Gagal membaca file gambar.");
 			};
 			img.src = event.target?.result as string;
 		};
@@ -89,20 +92,15 @@ function NewProductPage() {
 		e.preventDefault();
 		setError("");
 
-		if (!name.trim() || !description.trim()) {
-			setError("Nama dan deskripsi produk wajib diisi.");
+		const numPrice = Number.parseFloat(price);
+		const numStock = Number.parseInt(stock, 10);
+
+		if (Number.isNaN(numPrice) || numPrice < 0) {
+			setError("Harga produk harus berupa angka valid non-negatif.");
 			return;
 		}
-
-		const numPrice = Number(price);
-		if (!Number.isFinite(numPrice) || numPrice < 0) {
-			setError("Harga harus berupa angka positif.");
-			return;
-		}
-
-		const numStock = Number(stock);
-		if (!Number.isFinite(numStock) || numStock < 0 || !Number.isInteger(numStock)) {
-			setError("Stok harus berupa bilangan bulat positif.");
+		if (Number.isNaN(numStock) || numStock < 0) {
+			setError("Stok produk harus berupa bilangan bulat non-negatif.");
 			return;
 		}
 
@@ -134,7 +132,7 @@ function NewProductPage() {
 			actions={
 				<Link
 					to="/products"
-					className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-300 hover:bg-white/10 hover:text-white"
+					className="inline-flex items-center gap-1.5 rounded-none border border-[#E5E2DC] bg-white px-4 py-2 text-xs font-bold tracking-wider text-neutral-800 uppercase hover:bg-neutral-100"
 				>
 					<ArrowLeft className="size-3.5" />
 					<span>Kembali ke Produk</span>
@@ -142,23 +140,25 @@ function NewProductPage() {
 			}
 		>
 			<div className="mx-auto max-w-2xl">
-				<div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-2xl backdrop-blur-xl sm:p-8">
-					<div className="mb-6 flex items-center gap-2">
-						<span className="flex size-7 items-center justify-center rounded-xl border border-teal-500/20 bg-teal-500/10 text-teal-300">
-							<Sparkles className="size-4" />
-						</span>
-						<h2 className="font-serif text-lg font-medium text-white">Formulir Produk</h2>
+				<div className="rounded-xl border border-[#E5E2DC] bg-white p-6 shadow-xs sm:p-8">
+					<div className="mb-6 border-b border-[#E5E2DC] pb-4">
+						<h2 className="font-serif text-lg font-bold tracking-wide text-neutral-950 uppercase">
+							Formulir Produk
+						</h2>
 					</div>
 
 					{error && (
-						<div className="mb-5 rounded-2xl border border-red-500/30 bg-red-500/10 p-3.5 text-xs text-red-300">
+						<div className="mb-5 rounded-lg border border-red-200 bg-red-50 p-3.5 text-xs font-semibold text-red-600">
 							{error}
 						</div>
 					)}
 
 					<form onSubmit={handleSubmit} className="space-y-4">
-						<div className="space-y-1.5">
-							<label htmlFor="name" className="text-xs font-medium text-slate-300">
+						<div className="space-y-1">
+							<label
+								htmlFor="name"
+								className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+							>
 								Nama Produk
 							</label>
 							<input
@@ -166,14 +166,17 @@ function NewProductPage() {
 								type="text"
 								value={name}
 								onChange={(e) => setName(e.target.value)}
-								placeholder="e.g. Starter Kit Ekraf"
+								placeholder="e.g. Minimalist Leather Sneaker"
 								required
-								className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+								className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 							/>
 						</div>
 
-						<div className="space-y-1.5">
-							<label htmlFor="description" className="text-xs font-medium text-slate-300">
+						<div className="space-y-1">
+							<label
+								htmlFor="description"
+								className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+							>
 								Deskripsi
 							</label>
 							<textarea
@@ -181,15 +184,18 @@ function NewProductPage() {
 								rows={4}
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}
-								placeholder="Jelaskan spesifikasi produk secara detail..."
+								placeholder="Jelaskan spesifikasi produk, material, dan keunggulan..."
 								required
-								className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+								className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 							/>
 						</div>
 
 						<div className="grid grid-cols-2 gap-4">
-							<div className="space-y-1.5">
-								<label htmlFor="price" className="text-xs font-medium text-slate-300">
+							<div className="space-y-1">
+								<label
+									htmlFor="price"
+									className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+								>
 									Harga ($)
 								</label>
 								<input
@@ -201,11 +207,14 @@ function NewProductPage() {
 									onChange={(e) => setPrice(e.target.value)}
 									placeholder="0.00"
 									required
-									className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+									className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 								/>
 							</div>
-							<div className="space-y-1.5">
-								<label htmlFor="stock" className="text-xs font-medium text-slate-300">
+							<div className="space-y-1">
+								<label
+									htmlFor="stock"
+									className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+								>
 									Stok
 								</label>
 								<input
@@ -217,32 +226,36 @@ function NewProductPage() {
 									onChange={(e) => setStock(e.target.value)}
 									placeholder="0"
 									required
-									className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+									className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 								/>
 							</div>
 						</div>
 
-						{/* Image Picker */}
-						<div className="space-y-2">
+						<div className="space-y-2 pt-2">
 							<div className="flex items-center justify-between">
-								<span className="text-xs font-medium text-slate-300">
-									Gambar Produk (Maks 512px)
+								<span className="text-xs font-bold text-neutral-800 uppercase tracking-wider">
+									Foto Produk
 								</span>
-								<div className="flex items-center gap-1 text-[11px]">
+								<div className="flex gap-2">
 									<button
 										type="button"
 										onClick={() => setImageMode("file")}
-										className={`rounded-full px-2 py-0.5 font-medium transition-colors ${
-											imageMode === "file" ? "bg-teal-400/20 text-teal-300" : "text-slate-400"
+										className={`text-[11px] font-bold tracking-wide uppercase ${
+											imageMode === "file"
+												? "text-black underline underline-offset-4"
+												: "text-neutral-400 hover:text-black"
 										}`}
 									>
 										Unggah Berkas
 									</button>
+									<span className="text-neutral-300">|</span>
 									<button
 										type="button"
 										onClick={() => setImageMode("url")}
-										className={`rounded-full px-2 py-0.5 font-medium transition-colors ${
-											imageMode === "url" ? "bg-teal-400/20 text-teal-300" : "text-slate-400"
+										className={`text-[11px] font-bold tracking-wide uppercase ${
+											imageMode === "url"
+												? "text-black underline underline-offset-4"
+												: "text-neutral-400 hover:text-black"
 										}`}
 									>
 										Tautan URL
@@ -251,21 +264,21 @@ function NewProductPage() {
 							</div>
 
 							{imageMode === "file" ? (
-								<div className="flex items-center gap-3">
+								<div>
 									<input
-										type="file"
 										ref={fileInputRef}
-										onChange={handleFileChange}
+										type="file"
 										accept="image/*"
+										onChange={handleFileChange}
 										className="hidden"
 									/>
 									<button
 										type="button"
 										onClick={() => fileInputRef.current?.click()}
-										className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/[0.02] py-3 text-xs text-slate-300 transition-colors hover:border-teal-400/40 hover:bg-white/[0.05]"
+										className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-[#E5E2DC] bg-[#F9F8F6] py-4 text-xs font-medium text-neutral-700 transition-colors hover:border-black hover:bg-neutral-100"
 									>
-										<Upload className="size-4 text-teal-400" />
-										<span>Pilih Gambar (Otomatis Downscale ke 512px)</span>
+										<Upload className="size-4 text-neutral-600" />
+										<span>Pilih Gambar (Downscale otomatis max 512px)</span>
 									</button>
 								</div>
 							) : (
@@ -273,24 +286,28 @@ function NewProductPage() {
 									type="url"
 									value={imageUrl}
 									onChange={(e) => setImageUrl(e.target.value)}
-									placeholder="https://..."
-									className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-teal-400/50 focus:outline-none"
+									placeholder="https://images.unsplash.com/photo-..."
+									className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:outline-none"
 								/>
 							)}
 
-							{imageError && <p className="text-[11px] text-red-400">{imageError}</p>}
+							{imageError && <p className="text-[11px] text-red-600 font-semibold">{imageError}</p>}
 
 							{imageUrl && (
-								<div className="relative mt-2 flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-2">
-									<img src={imageUrl} alt="Pratinjau" className="size-12 rounded-lg object-cover" />
+								<div className="relative mt-2 flex items-center gap-3 rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] p-2">
+									<img
+										src={imageUrl}
+										alt="Pratinjau"
+										className="size-14 rounded-md object-cover border border-[#E5E2DC]"
+									/>
 									<div className="min-w-0 flex-1 text-[11px]">
-										<p className="font-semibold text-teal-300">Gambar Terpilih</p>
-										<p className="truncate text-slate-400">Siap disimpan (maks 512px)</p>
+										<p className="font-bold text-neutral-900">Gambar Terpilih</p>
+										<p className="truncate text-neutral-500">Maksimal 512px terkompresi</p>
 									</div>
 									<button
 										type="button"
 										onClick={() => setImageUrl("")}
-										className="rounded-lg p-1 text-slate-400 hover:text-red-400"
+										className="rounded-md p-1.5 text-neutral-400 hover:bg-red-50 hover:text-red-600"
 										title="Hapus gambar"
 									>
 										<X className="size-4" />
@@ -299,20 +316,20 @@ function NewProductPage() {
 							)}
 						</div>
 
-						<div className="flex items-center justify-end gap-3 pt-4">
+						<div className="flex items-center justify-end gap-3 border-t border-[#E5E2DC] pt-5">
 							<Link
 								to="/products"
-								className="rounded-full border border-white/10 px-5 py-2.5 text-xs font-semibold text-slate-300 hover:bg-white/5"
+								className="rounded-none border border-[#E5E2DC] bg-white px-5 py-2.5 text-xs font-bold text-neutral-700 uppercase tracking-wider hover:bg-neutral-100"
 							>
 								Batal
 							</Link>
 							<button
 								type="submit"
 								disabled={loading}
-								className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-teal-400 via-emerald-400 to-teal-300 px-6 py-2.5 text-xs font-semibold text-slate-950 shadow-[0_0_20px_rgba(45,212,191,0.35)] transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] active:scale-[0.98] disabled:opacity-50"
+								className="inline-flex items-center gap-2 rounded-none bg-[#111111] px-6 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm disabled:opacity-50"
 							>
 								{loading && <Loader2 className="size-3.5 animate-spin" />}
-								<span>Buat Produk Baru</span>
+								<span>Buat Produk</span>
 							</button>
 						</div>
 					</form>

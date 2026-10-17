@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Image as ImageIcon, Loader2, Sparkles, Upload, X } from "lucide-react";
+import { Image as ImageIcon, Loader2, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import type { Product } from "@/lib/db";
@@ -98,7 +98,7 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 
 				// Safety check on base64 size (should be under 400KB easily after 512px downscale)
 				if (resizedDataUrl.length > 700000) {
-					setImageError("Ukuran gambar melebihi 512KB. Silakan pilih gambar yang lebih kecil.");
+					setImageError("Ukuran gambar terlalu besar setelah kompresi. Coba gunakan foto lain.");
 					return;
 				}
 
@@ -116,24 +116,15 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 		e.preventDefault();
 		setError("");
 
-		if (!name.trim()) {
-			setError("Nama produk wajib diisi.");
-			return;
-		}
-		if (!description.trim()) {
-			setError("Deskripsi produk wajib diisi.");
-			return;
-		}
+		const numPrice = Number.parseFloat(price);
+		const numStock = Number.parseInt(stock, 10);
 
-		const numPrice = Number(price);
-		if (!Number.isFinite(numPrice) || numPrice < 0) {
-			setError("Harga harus berupa angka positif.");
+		if (Number.isNaN(numPrice) || numPrice < 0) {
+			setError("Harga produk harus berupa angka non-negatif.");
 			return;
 		}
-
-		const numStock = Number(stock);
-		if (!Number.isFinite(numStock) || numStock < 0 || !Number.isInteger(numStock)) {
-			setError("Stok harus berupa bilangan bulat positif.");
+		if (Number.isNaN(numStock) || numStock < 0) {
+			setError("Stok produk harus berupa bilangan bulat non-negatif.");
 			return;
 		}
 
@@ -178,7 +169,7 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 		<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
 			{/* Backdrop */}
 			<div
-				className="fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity"
+				className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
 				onClick={onClose}
 				onKeyDown={(e) => {
 					if (e.key === "Escape") onClose();
@@ -187,21 +178,16 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 			/>
 
 			{/* Modal Dialog */}
-			<div className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-white/10 bg-[#07171d]/95 p-6 shadow-[0_16px_48px_0_rgba(0,0,0,0.6)] backdrop-blur-2xl sm:p-8">
+			<div className="relative w-full max-w-lg overflow-hidden rounded-xl border border-[#E5E2DC] bg-white p-6 shadow-2xl sm:p-8">
 				{/* Header */}
-				<div className="flex items-center justify-between pb-4">
-					<div className="flex items-center gap-2">
-						<span className="flex size-7 items-center justify-center rounded-xl border border-teal-500/20 bg-teal-500/10 text-teal-300">
-							<Sparkles className="size-4" />
-						</span>
-						<h2 className="font-serif text-xl font-normal text-white">
-							{product ? "Edit Produk" : "Tambah Produk Baru"}
-						</h2>
-					</div>
+				<div className="flex items-center justify-between border-b border-[#E5E2DC] pb-4">
+					<h2 className="font-serif text-lg font-bold text-neutral-950 uppercase tracking-wide">
+						{product ? "Edit Produk Katalog" : "Tambah Produk Baru"}
+					</h2>
 					<button
 						type="button"
 						onClick={onClose}
-						className="rounded-full border border-white/10 p-1.5 text-slate-400 hover:bg-white/10 hover:text-white"
+						className="rounded-lg p-1.5 text-neutral-500 hover:bg-neutral-100 hover:text-black"
 					>
 						<X className="size-4" />
 					</button>
@@ -209,15 +195,18 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 
 				{/* Error feedback */}
 				{error && (
-					<div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-300">
+					<div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-600">
 						{error}
 					</div>
 				)}
 
-				<form onSubmit={handleSubmit} className="space-y-4">
+				<form onSubmit={handleSubmit} className="mt-5 space-y-4">
 					{/* Name */}
-					<div className="space-y-1.5">
-						<label htmlFor="prod-name" className="text-xs font-medium text-slate-300">
+					<div className="space-y-1">
+						<label
+							htmlFor="prod-name"
+							className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+						>
 							Nama Produk
 						</label>
 						<input
@@ -225,15 +214,18 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 							type="text"
 							value={name}
 							onChange={(e) => setName(e.target.value)}
-							placeholder="e.g. Starter Kit Ekraf"
+							placeholder="e.g. Minimalist Leather Sneaker"
 							required
-							className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+							className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 						/>
 					</div>
 
 					{/* Description */}
-					<div className="space-y-1.5">
-						<label htmlFor="prod-desc" className="text-xs font-medium text-slate-300">
+					<div className="space-y-1">
+						<label
+							htmlFor="prod-desc"
+							className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+						>
 							Deskripsi
 						</label>
 						<textarea
@@ -241,16 +233,19 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 							rows={3}
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
-							placeholder="Jelaskan spesifikasi, keunggulan, atau lisensi produk..."
+							placeholder="Jelaskan spesifikasi, material, atau keunggulan karya..."
 							required
-							className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+							className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 						/>
 					</div>
 
 					{/* Price & Stock */}
-					<div className="grid grid-cols-2 gap-3">
-						<div className="space-y-1.5">
-							<label htmlFor="prod-price" className="text-xs font-medium text-slate-300">
+					<div className="grid grid-cols-2 gap-4">
+						<div className="space-y-1">
+							<label
+								htmlFor="prod-price"
+								className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+							>
 								Harga ($)
 							</label>
 							<input
@@ -262,12 +257,15 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 								onChange={(e) => setPrice(e.target.value)}
 								placeholder="0.00"
 								required
-								className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+								className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 							/>
 						</div>
-						<div className="space-y-1.5">
-							<label htmlFor="prod-stock" className="text-xs font-medium text-slate-300">
-								Stok
+						<div className="space-y-1">
+							<label
+								htmlFor="prod-stock"
+								className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+							>
+								Stok (Unit)
 							</label>
 							<input
 								id="prod-stock"
@@ -276,32 +274,39 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 								min="0"
 								value={stock}
 								onChange={(e) => setStock(e.target.value)}
-								placeholder="0"
+								placeholder="10"
 								required
-								className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+								className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 							/>
 						</div>
 					</div>
 
-					{/* Image Input (File Picker with 512px auto-downscale or URL) */}
+					{/* Image Selection with 512px Downscaling */}
 					<div className="space-y-2">
 						<div className="flex items-center justify-between">
-							<span className="text-xs font-medium text-slate-300">Gambar Produk (Maks 512px)</span>
-							<div className="flex items-center gap-1 text-[11px]">
+							<span className="text-xs font-bold text-neutral-800 uppercase tracking-wider">
+								Foto Produk
+							</span>
+							<div className="flex gap-2">
 								<button
 									type="button"
 									onClick={() => setImageMode("file")}
-									className={`rounded-full px-2 py-0.5 font-medium transition-colors ${
-										imageMode === "file" ? "bg-teal-400/20 text-teal-300" : "text-slate-400"
+									className={`text-[11px] font-bold tracking-wide uppercase ${
+										imageMode === "file"
+											? "text-black underline underline-offset-4"
+											: "text-neutral-400 hover:text-black"
 									}`}
 								>
 									Unggah Berkas
 								</button>
+								<span className="text-neutral-300">|</span>
 								<button
 									type="button"
 									onClick={() => setImageMode("url")}
-									className={`rounded-full px-2 py-0.5 font-medium transition-colors ${
-										imageMode === "url" ? "bg-teal-400/20 text-teal-300" : "text-slate-400"
+									className={`text-[11px] font-bold tracking-wide uppercase ${
+										imageMode === "url"
+											? "text-black underline underline-offset-4"
+											: "text-neutral-400 hover:text-black"
 									}`}
 								>
 									Tautan URL
@@ -310,21 +315,21 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 						</div>
 
 						{imageMode === "file" ? (
-							<div className="flex items-center gap-3">
+							<div>
 								<input
-									type="file"
 									ref={fileInputRef}
-									onChange={handleFileChange}
+									type="file"
 									accept="image/*"
+									onChange={handleFileChange}
 									className="hidden"
 								/>
 								<button
 									type="button"
 									onClick={() => fileInputRef.current?.click()}
-									className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/[0.02] py-3 text-xs text-slate-300 transition-colors hover:border-teal-400/40 hover:bg-white/[0.05]"
+									className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-[#E5E2DC] bg-[#F9F8F6] py-3.5 text-xs font-medium text-neutral-700 transition-colors hover:border-black hover:bg-neutral-100"
 								>
-									<Upload className="size-4 text-teal-400" />
-									<span>Pilih Gambar (Otomatis Downscale ke 512px)</span>
+									<Upload className="size-4 text-neutral-600" />
+									<span>Pilih Gambar (Otomatis Kompres & Downscale 512px)</span>
 								</button>
 							</div>
 						) : (
@@ -333,24 +338,28 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 								value={imageUrl}
 								onChange={(e) => setImageUrl(e.target.value)}
 								placeholder="https://images.unsplash.com/photo-..."
-								className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-teal-400/50 focus:outline-none"
+								className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:outline-none"
 							/>
 						)}
 
-						{imageError && <p className="text-[11px] text-red-400">{imageError}</p>}
+						{imageError && <p className="text-[11px] text-red-600 font-semibold">{imageError}</p>}
 
 						{/* Image Preview */}
 						{imageUrl && (
-							<div className="relative mt-2 flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-2">
-								<img src={imageUrl} alt="Pratinjau" className="size-12 rounded-lg object-cover" />
+							<div className="relative mt-2 flex items-center gap-3 rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] p-2">
+								<img
+									src={imageUrl}
+									alt="Pratinjau"
+									className="size-12 rounded-md object-cover border border-[#E5E2DC]"
+								/>
 								<div className="min-w-0 flex-1 text-[11px]">
-									<p className="font-semibold text-teal-300">Gambar Terpilih</p>
-									<p className="truncate text-slate-400">Siap disimpan (maks 512px)</p>
+									<p className="font-bold text-neutral-900">Gambar Terpilih</p>
+									<p className="truncate text-neutral-500">Siap disimpan (downscaled max 512px)</p>
 								</div>
 								<button
 									type="button"
 									onClick={() => setImageUrl("")}
-									className="rounded-lg p-1 text-slate-400 hover:text-red-400"
+									className="rounded-md p-1.5 text-neutral-400 hover:bg-red-50 hover:text-red-600"
 									title="Hapus gambar"
 								>
 									<X className="size-4" />
@@ -360,18 +369,18 @@ export function ProductFormModal({ isOpen, onClose, product, onSuccess }: Produc
 					</div>
 
 					{/* Modal Actions */}
-					<div className="flex items-center justify-end gap-3 pt-4">
+					<div className="flex items-center justify-end gap-3 border-t border-[#E5E2DC] pt-4">
 						<button
 							type="button"
 							onClick={onClose}
-							className="rounded-full border border-white/10 px-5 py-2.5 text-xs font-semibold text-slate-300 hover:bg-white/5"
+							className="rounded-none border border-[#E5E2DC] bg-white px-5 py-2.5 text-xs font-bold text-neutral-700 hover:bg-neutral-100 uppercase tracking-wider"
 						>
 							Batal
 						</button>
 						<button
 							type="submit"
 							disabled={loading}
-							className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-teal-400 via-emerald-400 to-teal-300 px-6 py-2.5 text-xs font-semibold text-slate-950 shadow-[0_0_20px_rgba(45,212,191,0.35)] transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] active:scale-[0.98] disabled:opacity-50"
+							className="inline-flex items-center gap-1.5 rounded-none bg-[#111111] px-6 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm disabled:opacity-50"
 						>
 							{loading && <Loader2 className="size-3.5 animate-spin" />}
 							<span>{product ? "Simpan Perubahan" : "Buat Produk"}</span>

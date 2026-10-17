@@ -62,10 +62,25 @@ Dokumen ini merangkum perbaikan bug, penyesuaian visual Web3 design system, sert
 
 ---
 
-## 3. UI/UX Revitalisasi (Web3 Startup Aesthetic Alignment)
+## 3. UI/UX Revitalisasi: Konsistensi Visual E-Commerce High-End (Gaya NORD)
 
-1. **Palet Warna Deep Teal / Hijau-Kebiruan Gelap:** Mengadopsi warna dasar `#071519` hingga `#0d252c` dengan aksen luminous teal (`#2dd4bf`), emerald (`#10b981`), dan cyan glow.
-2. **Kartu Glassmorphism:** Panel semi-transparan dengan `backdrop-blur-xl`, border tipis bercahaya `border-white/10`, serta efek bayangan halus bernuansa Web3.
-3. **Tombol Aksi Kapsul (Pill-Shaped):** Seluruh CTA utama menggunakan desain kapsul melengkung penuh (`rounded-full`) dengan efek hover glow.
-4. **Tipografi Editorial Elegan:** Judul halaman menggunakan tipografi serif `Fraunces` dengan gaya editorial berpadu dengan sans-serif modern `Manrope` / `Space Grotesk`.
-5. **Admin Shell & Sidebar Interaktif:** Layout admin modern dengan sidebar yang dapat diciutkan (*collapsible*), mobile drawer responsif berikon `lucide-react`, profil aktif pengguna, dan navigasi cepat.
+Seluruh halaman telah dirombak secara total dan disatukan agar mengadopsi bahasa desain (*design system*) e-commerce high-end **NORD** yang bersih, mewah, dan sangat *user-friendly*:
+
+1. **Skema Warna Luxury Cream & Jet Black Contrast:**
+   - Latar belakang dasar *off-white / cream* lembut (`#F9F8F6`, `#F2EFE9`) di seluruh halaman publik dan admin.
+   - Blok kontras hitam pekat (`#111111`) untuk bagian editorial dan tombol utama.
+   - Kartu kontainer putih bersih (`#FFFFFF`) dengan border tipis minimalis (`#E5E2DC`) dan bayangan lembut (`shadow-xs` / `shadow-sm`).
+   - Seluruh efek neon/glow ala dashboard masa lalu telah dihilangkan secara menyeluruh.
+
+2. **Tipografi Modern & Sangat User-Friendly:**
+   - **Teks Isi, Tabel, & Form:** Menggunakan font modern `Plus Jakarta Sans` dan `Inter` yang sangat bersih, nyaman dibaca di layar, dan memiliki kontras tajam.
+   - **Judul Utama & Branding:** Menggunakan huruf kapital tegas dengan tracking berjarak renggang (`tracking-wider` / `tracking-[0.18em]`) serta tipografi display serif `Playfair Display` untuk jenama NORD / Ekraf Atelier.
+
+3. **Konsistensi Visual Halaman demi Halaman:**
+   - **Header & Navigasi Global:** Dilengkapi *announcement ticker* ("FREE SHIPPING ON ORDERS ABOVE $99"), logo NORD tebal di tengah, link navigasi bersih (Katalog, Dashboard, Pengguna, Setup), serta aksi keranjang/pencarian dan status auth.
+   - **Beranda (Landing Page):** Mengadopsi hero section NORD dengan judul masif `NORD`, produk unggulan di atas podium batu brutalist, blok kontras hitam 3 kolom (Sneakers, Boots, Essentials), editorial split "RAW TEXTURES", bar 4 proposisi nilai (Fast Delivery, Easy Returns, Quality Assured, Secure Payment), grid produk "BEST OF NORD", dan arsip 16 Subsektor Ekraf.
+   - **Katalog Produk (`/products`):** Menyediakan toggle tampilan Grid E-Commerce (kartu produk bersih berfoto jernih) dan Tabel Data TanStack Table v9 dengan pengurutan kolom dan pencarian interaktif.
+   - **Admin Shell & Dashboard (`/dashboard`):** Panel samping (*sidebar*) bersih berwarna putih dengan border halus, navigasi aktif berlatar hitam pekat (`#111111`), 4 kartu metrik minimalis, dan ringkasan produk serta status sistem terverifikasi.
+   - **Manajemen Pengguna (`/users` & `/users/$userId`):** Tabel pengguna putih bersih dengan tipografi yang sangat mudah dibaca, select dropdown peran yang elegan, serta proteksi keamanan anti self-demotion dan last admin guard.
+   - **Setup & Auth (`/setup` & `/login`):** Kartu login dan setup putih bersih dengan tombol aksi tegas berwarna hitam pekat, form input responsif, dan pengamanan brute-force rate limiting.
+

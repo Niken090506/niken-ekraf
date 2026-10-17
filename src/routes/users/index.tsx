@@ -2,16 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { createColumnHelper, flexRender, tableFeatures, useTable } from "@tanstack/react-table";
-import {
-	ArrowUpDown,
-	CheckCircle2,
-	Eye,
-	ShieldAlert,
-	ShieldCheck,
-	Trash2,
-	User,
-	XCircle,
-} from "lucide-react";
+import { CheckCircle2, Eye, ShieldAlert, ShieldCheck, Trash2, User, XCircle } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AdminShell } from "@/components/AdminShell";
@@ -74,19 +65,19 @@ function UsersPage() {
 						const isSelf = u.id === currentUserId;
 						return (
 							<div className="flex items-center gap-3">
-								<div className="flex size-9 items-center justify-center rounded-xl border border-teal-500/20 bg-teal-500/10 font-bold text-teal-300">
+								<div className="flex size-9 items-center justify-center rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] font-bold text-neutral-800">
 									{u.name?.charAt(0).toUpperCase() || <User className="size-4" />}
 								</div>
 								<div>
 									<div className="flex items-center gap-2">
-										<span className="font-semibold text-white">{u.name || "Tanpa Nama"}</span>
+										<span className="font-bold text-neutral-950">{u.name || "Tanpa Nama"}</span>
 										{isSelf && (
-											<span className="rounded-full border border-teal-400/30 bg-teal-400/15 px-2 py-0.5 text-[10px] font-semibold text-teal-300">
+											<span className="rounded-full border border-neutral-200 bg-neutral-100 px-2 py-0.5 text-[10px] font-bold text-neutral-800">
 												Akun Anda
 											</span>
 										)}
 									</div>
-									<p className="font-mono text-[11px] text-slate-400">{u.email}</p>
+									<p className="text-[11px] text-neutral-500">{u.email}</p>
 								</div>
 							</div>
 						);
@@ -126,21 +117,21 @@ function UsersPage() {
 									onChange={(e) => handleRoleChange(e.target.value as Role)}
 									disabled={isSelf}
 									title={isSelf ? "Peran akun sendiri terlindungi (anti self-demotion)" : undefined}
-									className={`rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all focus:outline-none ${
+									className={`rounded-md border px-3 py-1.5 text-xs font-bold transition-all focus:outline-none ${
 										user.role === "admin"
-											? "border-teal-500/30 bg-teal-500/15 text-teal-300"
-											: "border-white/10 bg-white/5 text-slate-300"
-									} ${isSelf ? "cursor-not-allowed opacity-80" : "cursor-pointer hover:border-teal-400/40"}`}
+											? "border-black bg-[#111111] text-white"
+											: "border-[#E5E2DC] bg-white text-neutral-800"
+									} ${isSelf ? "cursor-not-allowed opacity-80" : "cursor-pointer hover:border-black"}`}
 								>
-									<option value="user" className="bg-[#07171d] text-slate-200">
+									<option value="user" className="bg-white text-neutral-900">
 										Pengguna (User)
 									</option>
-									<option value="admin" className="bg-[#07171d] text-teal-300">
+									<option value="admin" className="bg-white text-neutral-900">
 										Administrator (Admin)
 									</option>
 								</select>
 								{isSelf && (
-									<span title="Anti Self-Demotion" className="text-teal-400">
+									<span title="Anti Self-Demotion" className="text-neutral-700">
 										<ShieldCheck className="size-4" />
 									</span>
 								)}
@@ -152,75 +143,64 @@ function UsersPage() {
 					header: "Verifikasi",
 					cell: (info) =>
 						info.getValue() ? (
-							<span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-400">
+							<span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700">
 								<CheckCircle2 className="size-3.5" />
 								<span>Terverifikasi</span>
 							</span>
 						) : (
-							<span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500">
+							<span className="inline-flex items-center gap-1 text-[11px] font-medium text-neutral-400">
 								<XCircle className="size-3.5" />
 								<span>Belum</span>
 							</span>
 						),
 				}),
-				columnHelper.accessor("createdAt", {
-					header: "Terdaftar",
-					cell: (info) => (
-						<span className="text-[11px] text-slate-400">
-							{new Date(info.getValue() as string).toLocaleDateString("id-ID", {
-								year: "numeric",
-								month: "short",
-								day: "numeric",
-							})}
-						</span>
-					),
-				}),
 				columnHelper.display({
 					id: "actions",
 					header: "Aksi",
 					cell: (info) => {
-						const user = info.row.original as UserRow;
-						const isSelf = user.id === currentUserId;
-						const isLastAdmin = user.role === "admin" && adminCount <= 1;
+						const u = info.row.original as UserRow;
+						const isSelf = u.id === currentUserId;
+						const isLastAdmin = u.role === "admin" && adminCount <= 1;
 
 						return (
 							<div className="flex items-center gap-2">
 								<Link
 									to="/users/$userId"
-									params={{ userId: user.id }}
-									className="flex size-7 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
-									title="Rincian Pengguna"
+									params={{ userId: u.id }}
+									className="flex size-7 items-center justify-center rounded-md border border-[#E5E2DC] bg-white text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-black"
+									title="Lihat Detail & Kelola"
 								>
 									<Eye className="size-3.5" />
 								</Link>
 
-								{isSelf ? (
-									<span className="rounded-full bg-white/5 px-2.5 py-1 text-[10px] text-slate-500">
-										Akun Aktif
-									</span>
-								) : isLastAdmin ? (
-									<span className="rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-1 text-[10px] text-amber-300">
-										Admin Terakhir
-									</span>
-								) : (
-									<button
-										type="button"
-										onClick={() => {
-											setDeleteId(user.id);
-											setActionError("");
-										}}
-										className="flex size-7 items-center justify-center rounded-lg border border-red-500/20 bg-red-500/10 text-red-300 transition-colors hover:bg-red-500/20"
-										title="Hapus Pengguna"
-									>
-										<Trash2 className="size-3.5" />
-									</button>
-								)}
+								<button
+									type="button"
+									disabled={isSelf || isLastAdmin}
+									onClick={() => {
+										setDeleteId(u.id);
+										setActionError("");
+									}}
+									title={
+										isSelf
+											? "Tidak dapat menghapus akun sendiri"
+											: isLastAdmin
+												? "Tidak dapat menghapus admin terakhir"
+												: "Hapus Pengguna"
+									}
+									className={`flex size-7 items-center justify-center rounded-md border transition-colors ${
+										isSelf || isLastAdmin
+											? "cursor-not-allowed border-neutral-200 bg-neutral-100 text-neutral-400 opacity-50"
+											: "border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
+									}`}
+								>
+									<Trash2 className="size-3.5" />
+								</button>
 							</div>
 						);
 					},
 				}),
 			]),
-		[columnHelper, currentUserId, adminCount, updateRoleFn, queryClient],
+		[columnHelper, currentUserId, adminCount, queryClient, updateRoleFn],
 	);
 
 	const table = useTable({
@@ -236,8 +216,9 @@ function UsersPage() {
 
 		try {
 			await deleteFn({ data: { userId: deleteId } });
-			setActionSuccess("Pengguna berhasil dihapus.");
 			await queryClient.invalidateQueries({ queryKey: ["users"] });
+			await queryClient.invalidateQueries({ queryKey: ["dashboard", "users"] });
+			setActionSuccess("Pengguna berhasil dihapus.");
 			setDeleteId(null);
 		} catch (err) {
 			setActionError(err instanceof Error ? err.message : "Gagal menghapus pengguna");
@@ -249,50 +230,43 @@ function UsersPage() {
 	return (
 		<AdminShell
 			title="Manajemen Pengguna"
-			subtitle="Kontrol akses pengguna dan peran administrator dengan pengamanan anti self-demotion dan last admin guard."
+			subtitle="Pengendalian hak akses dan akun terverifikasi dengan proteksi admin anti-lockout."
 		>
 			<div className="space-y-6">
-				{/* Feedback alerts */}
-				{actionError && (
-					<div className="flex items-start gap-2.5 rounded-2xl border border-red-500/30 bg-red-500/10 p-3.5 text-xs text-red-300">
-						<ShieldAlert className="size-4 shrink-0 mt-0.5" />
-						<p>{actionError}</p>
+				{/* Feedback Alerts */}
+				{actionSuccess && (
+					<div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3.5 text-xs font-semibold text-emerald-800">
+						{actionSuccess}
 					</div>
 				)}
-				{actionSuccess && (
-					<div className="flex items-start gap-2.5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-xs text-emerald-300">
-						<CheckCircle2 className="size-4 shrink-0 mt-0.5" />
-						<p>{actionSuccess}</p>
+				{actionError && (
+					<div className="rounded-lg border border-red-200 bg-red-50 p-3.5 text-xs font-semibold text-red-600">
+						{actionError}
 					</div>
 				)}
 
 				{/* Table Container */}
-				<div className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] backdrop-blur-2xl">
+				<div className="overflow-hidden rounded-xl border border-[#E5E2DC] bg-white shadow-xs">
 					<div className="overflow-x-auto">
 						<table className="w-full text-left text-xs">
 							<thead>
 								{table.getHeaderGroups().map((headerGroup) => (
-									<tr key={headerGroup.id} className="border-b border-white/10 bg-white/[0.02]">
+									<tr key={headerGroup.id} className="border-b border-[#E5E2DC] bg-[#F9F8F6]">
 										{headerGroup.headers.map((header) => (
 											<th
 												key={header.id}
 												colSpan={header.colSpan}
-												className="px-5 py-3.5 text-xs font-semibold tracking-wider text-slate-400 uppercase"
+												className="px-5 py-3.5 text-xs font-bold tracking-wider text-neutral-600 uppercase"
 											>
-												{header.isPlaceholder
-													? null
-													: flexRender(header.column.columnDef.header, header.getContext())}
+												{flexRender(header.column.columnDef.header, header.getContext())}
 											</th>
 										))}
 									</tr>
 								))}
 							</thead>
-							<tbody className="divide-y divide-white/5 text-slate-300">
+							<tbody className="divide-y divide-[#E5E2DC] text-neutral-800">
 								{table.getRowModel().rows.map((row) => (
-									<tr
-										key={row.id}
-										className="transition-colors hover:bg-white/[0.02] hover:text-white"
-									>
+									<tr key={row.id} className="transition-colors hover:bg-[#F9F8F6]">
 										{row.getAllCells().map((cell) => (
 											<td key={cell.id} className="px-5 py-3.5">
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -302,10 +276,13 @@ function UsersPage() {
 								))}
 								{table.getRowModel().rows.length === 0 && (
 									<tr>
-										<td colSpan={columns.length} className="px-5 py-12 text-center text-slate-400">
+										<td
+											colSpan={columns.length}
+											className="px-5 py-12 text-center text-neutral-500"
+										>
 											{usersQuery.isPending
 												? "Memuat data pengguna..."
-												: "Belum ada pengguna terdaftar."}
+												: "Belum ada akun pengguna terdaftar."}
 										</td>
 									</tr>
 								)}
@@ -314,28 +291,53 @@ function UsersPage() {
 					</div>
 				</div>
 
+				{/* Security Guidelines Card */}
+				<div className="rounded-xl border border-[#E5E2DC] bg-white p-5 shadow-xs">
+					<div className="flex items-center gap-2 border-b border-[#E5E2DC] pb-3">
+						<ShieldAlert className="size-4 text-neutral-700" />
+						<h3 className="font-serif text-sm font-bold tracking-wide text-neutral-950 uppercase">
+							Protokol Keamanan Akses
+						</h3>
+					</div>
+					<ul className="mt-3 space-y-1.5 text-xs text-neutral-600">
+						<li>
+							&bull; <strong>Anti Self-Demotion:</strong> Anda tidak dapat menurunkan peran akun
+							Anda sendiri saat sedang aktif.
+						</li>
+						<li>
+							&bull; <strong>Anti Self-Deletion:</strong> Anda tidak dapat menghapus akun Anda
+							sendiri dari panel.
+						</li>
+						<li>
+							&bull; <strong>Last Admin Guard:</strong> Sistem mencegah penghapusan akun jika hanya
+							tersisa 1 administrator di memori server.
+						</li>
+					</ul>
+				</div>
+
 				{/* Delete Confirmation Modal */}
 				{deleteId && (
 					<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
 						<div
-							className="fixed inset-0 bg-black/70 backdrop-blur-sm"
+							className="fixed inset-0 bg-black/50 backdrop-blur-xs"
 							onClick={() => setDeleteId(null)}
 							onKeyDown={(e) => {
 								if (e.key === "Escape") setDeleteId(null);
 							}}
 							role="presentation"
 						/>
-						<div className="relative w-full max-w-sm rounded-3xl border border-white/10 bg-[#07171d] p-6 shadow-2xl backdrop-blur-xl">
-							<h3 className="font-serif text-lg font-medium text-white">Hapus Pengguna Ini?</h3>
-							<p className="mt-2 text-xs leading-relaxed text-slate-400">
-								Akun pengguna ini akan dihapus dari sistem memori server dan sesi login akan
-								dihentikan.
+						<div className="relative w-full max-w-sm rounded-xl border border-[#E5E2DC] bg-white p-6 shadow-xl">
+							<h3 className="font-serif text-lg font-bold text-neutral-950 uppercase">
+								Hapus Akun Pengguna?
+							</h3>
+							<p className="mt-2 text-xs leading-relaxed text-neutral-600">
+								Tindakan ini akan menghapus akun dari memori server secara permanen.
 							</p>
 							<div className="mt-6 flex items-center justify-end gap-3">
 								<button
 									type="button"
 									onClick={() => setDeleteId(null)}
-									className="rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-slate-300 hover:bg-white/5"
+									className="rounded-md border border-[#E5E2DC] bg-white px-4 py-2 text-xs font-bold text-neutral-700 hover:bg-neutral-100"
 								>
 									Batal
 								</button>
@@ -343,9 +345,9 @@ function UsersPage() {
 									type="button"
 									onClick={confirmDelete}
 									disabled={deleteLoading}
-									className="rounded-full bg-red-500/80 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-red-500/20 hover:bg-red-500 disabled:opacity-50"
+									className="rounded-md bg-red-600 px-4 py-2 text-xs font-bold text-white hover:bg-red-700 disabled:opacity-50"
 								>
-									{deleteLoading ? "Menghapus..." : "Ya, Hapus"}
+									{deleteLoading ? "Menghapus..." : "Ya, Hapus Akun"}
 								</button>
 							</div>
 						</div>

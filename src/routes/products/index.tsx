@@ -8,7 +8,7 @@ import {
 	tableFeatures,
 	useTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, Edit, Package, Plus, Search, Trash2 } from "lucide-react";
+import { ArrowUpDown, Edit, Grid, List, Package, Plus, Search, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AdminShell } from "@/components/AdminShell";
@@ -32,6 +32,7 @@ function ProductsPage() {
 	const deleteFn = useServerFn(deleteProduct);
 
 	const [searchTerm, setSearchTerm] = useState("");
+	const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
 	const [modalOpen, setModalOpen] = useState(false);
 	const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 	const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -69,10 +70,10 @@ function ProductsPage() {
 							<img
 								src={p.imageUrl}
 								alt={p.name}
-								className="size-10 rounded-xl object-cover border border-white/10"
+								className="size-11 rounded-lg border border-[#E5E2DC] object-cover"
 							/>
 						) : (
-							<div className="flex size-10 items-center justify-center rounded-xl border border-teal-500/20 bg-teal-500/10 text-teal-300">
+							<div className="flex size-11 items-center justify-center rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] text-neutral-400">
 								<Package className="size-5" />
 							</div>
 						);
@@ -84,8 +85,8 @@ function ProductsPage() {
 						const p = info.row.original as Product;
 						return (
 							<div>
-								<span className="font-semibold text-white">{p.name}</span>
-								<p className="max-w-xs truncate text-[11px] text-slate-400">{p.description}</p>
+								<span className="font-bold text-neutral-950">{p.name}</span>
+								<p className="max-w-xs truncate text-[11px] text-neutral-500">{p.description}</p>
 							</div>
 						);
 					},
@@ -93,7 +94,7 @@ function ProductsPage() {
 				columnHelper.accessor("price", {
 					header: "Harga",
 					cell: (info) => (
-						<span className="font-mono text-xs font-semibold text-teal-300">
+						<span className="font-sans text-xs font-bold text-neutral-950">
 							${Number(info.getValue()).toFixed(2)}
 						</span>
 					),
@@ -104,10 +105,10 @@ function ProductsPage() {
 						const stock = Number(info.getValue());
 						return (
 							<span
-								className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
+								className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
 									stock > 0
-										? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-										: "border border-red-500/30 bg-red-500/10 text-red-300"
+										? "border border-neutral-200 bg-neutral-100 text-neutral-800"
+										: "border border-red-200 bg-red-50 text-red-700"
 								}`}
 							>
 								{stock > 0 ? `${stock} unit` : "Habis"}
@@ -128,7 +129,7 @@ function ProductsPage() {
 										setEditingProduct(product);
 										setModalOpen(true);
 									}}
-									className="flex size-7 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+									className="flex size-7 items-center justify-center rounded-md border border-[#E5E2DC] bg-white text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-black"
 									title="Edit via Modal"
 								>
 									<Edit className="size-3.5" />
@@ -136,10 +137,10 @@ function ProductsPage() {
 								<Link
 									to="/products/$productId"
 									params={{ productId: product.id }}
-									className="flex size-7 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+									className="flex size-7 items-center justify-center rounded-md border border-[#E5E2DC] bg-white text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-black"
 									title="Halaman Detail"
 								>
-									<span className="text-[10px] font-semibold">Detil</span>
+									<span className="text-[10px] font-bold">Detil</span>
 								</Link>
 								<button
 									type="button"
@@ -147,7 +148,7 @@ function ProductsPage() {
 										setDeleteId(product.id);
 										setDeleteError("");
 									}}
-									className="flex size-7 items-center justify-center rounded-lg border border-red-500/20 bg-red-500/10 text-red-300 transition-colors hover:bg-red-500/20"
+									className="flex size-7 items-center justify-center rounded-md border border-red-200 bg-red-50 text-red-600 transition-colors hover:bg-red-100"
 									title="Hapus Produk"
 								>
 									<Trash2 className="size-3.5" />
@@ -186,7 +187,7 @@ function ProductsPage() {
 	return (
 		<AdminShell
 			title="Katalog Produk"
-			subtitle="Manajemen produk ekonomi kreatif dengan validasi server-side dan kontrol hak akses admin."
+			subtitle="Kurasi & manajemen katalog produk ekonomi kreatif bergaya e-commerce high-end."
 			actions={
 				<div className="flex items-center gap-3">
 					<button
@@ -195,7 +196,7 @@ function ProductsPage() {
 							setEditingProduct(null);
 							setModalOpen(true);
 						}}
-						className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-teal-400 via-emerald-400 to-teal-300 px-4 py-2 text-xs font-semibold text-slate-950 shadow-[0_0_15px_rgba(45,212,191,0.35)] transition-all hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(45,212,191,0.5)] active:scale-[0.98]"
+						className="inline-flex items-center gap-1.5 rounded-none bg-[#111111] px-5 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm"
 					>
 						<Plus className="size-3.5" />
 						<span>Tambah Produk</span>
@@ -204,84 +205,217 @@ function ProductsPage() {
 			}
 		>
 			<div className="space-y-6">
-				{/* Search & Filter Toolbar */}
+				{/* Search & Layout View Toggle Bar */}
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 					<div className="relative w-full max-w-sm">
-						<Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
+						<Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-neutral-400" />
 						<input
 							type="text"
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
-							placeholder="Cari nama atau deskripsi..."
-							className="w-full rounded-2xl border border-white/10 bg-white/[0.03] py-2 pr-4 pl-9 text-xs text-white placeholder-slate-500 focus:border-teal-400/50 focus:bg-white/[0.06] focus:outline-none"
+							placeholder="Cari nama atau deskripsi produk..."
+							className="w-full rounded-lg border border-[#E5E2DC] bg-white py-2 pr-4 pl-9 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 						/>
 					</div>
-					<div className="text-xs text-slate-400">
-						Menampilkan <span className="font-semibold text-teal-300">{filteredData.length}</span>{" "}
-						dari {rawData.length} produk
+
+					<div className="flex items-center gap-3">
+						<div className="text-xs text-neutral-500">
+							Menampilkan <span className="font-bold text-neutral-950">{filteredData.length}</span>{" "}
+							dari {rawData.length} produk
+						</div>
+
+						{/* View Mode Toggle */}
+						<div className="flex items-center rounded-lg border border-[#E5E2DC] bg-white p-0.5">
+							<button
+								type="button"
+								onClick={() => setViewMode("grid")}
+								className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-bold tracking-wide uppercase transition-colors ${
+									viewMode === "grid"
+										? "bg-[#111111] text-white"
+										: "text-neutral-600 hover:text-black"
+								}`}
+								title="Tampilan Grid E-Commerce"
+							>
+								<Grid className="size-3.5" />
+								<span>Grid</span>
+							</button>
+							<button
+								type="button"
+								onClick={() => setViewMode("table")}
+								className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-bold tracking-wide uppercase transition-colors ${
+									viewMode === "table"
+										? "bg-[#111111] text-white"
+										: "text-neutral-600 hover:text-black"
+								}`}
+								title="Tampilan Tabel"
+							>
+								<List className="size-3.5" />
+								<span>Tabel</span>
+							</button>
+						</div>
 					</div>
 				</div>
 
-				{/* Web3 Glass Table Container */}
-				<div className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] backdrop-blur-2xl">
-					<div className="overflow-x-auto">
-						<table className="w-full text-left text-xs">
-							<thead>
-								{table.getHeaderGroups().map((headerGroup) => (
-									<tr key={headerGroup.id} className="border-b border-white/10 bg-white/[0.02]">
-										{headerGroup.headers.map((header) => (
-											<th
-												key={header.id}
-												colSpan={header.colSpan}
-												className="px-5 py-3.5 text-xs font-semibold tracking-wider text-slate-400 uppercase"
-											>
-												{header.isPlaceholder ? null : (
-													<div
-														{...{
-															className:
-																"flex items-center gap-1.5 cursor-pointer select-none hover:text-white",
-															onClick: header.column.getToggleSortingHandler(),
-														}}
-													>
-														{flexRender(header.column.columnDef.header, header.getContext())}
-														<ArrowUpDown className="size-3 opacity-60" />
-														{{
-															asc: " ▲",
-															desc: " ▼",
-														}[header.column.getIsSorted() as string] ?? null}
-													</div>
-												)}
-											</th>
-										))}
-									</tr>
-								))}
-							</thead>
-							<tbody className="divide-y divide-white/5 text-slate-300">
-								{table.getRowModel().rows.map((row) => (
-									<tr
-										key={row.id}
-										className="transition-colors hover:bg-white/[0.02] hover:text-white"
+				{/* 1. E-Commerce Grid View (Matching NORD Reference) */}
+				{viewMode === "grid" && (
+					<div>
+						{filteredData.length === 0 ? (
+							<div className="rounded-xl border border-dashed border-[#E5E2DC] bg-white p-12 text-center text-sm text-neutral-500">
+								{productsQuery.isPending
+									? "Memuat katalog produk..."
+									: "Tidak ada produk yang sesuai dengan pencarian."}
+							</div>
+						) : (
+							<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+								{filteredData.map((product) => (
+									<div
+										key={product.id}
+										className="group flex flex-col justify-between rounded-xl border border-[#E5E2DC] bg-white p-4 shadow-xs transition-all hover:border-black hover:shadow-md"
 									>
-										{row.getAllCells().map((cell) => (
-											<td key={cell.id} className="px-5 py-3.5">
-												{flexRender(cell.column.columnDef.cell, cell.getContext())}
-											</td>
-										))}
-									</tr>
+										{/* Product Image */}
+										<div className="relative aspect-square w-full overflow-hidden rounded-lg bg-[#F9F8F6]">
+											{product.imageUrl ? (
+												<img
+													src={product.imageUrl}
+													alt={product.name}
+													className="size-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+												/>
+											) : (
+												<div className="flex size-full items-center justify-center text-neutral-400">
+													<Package className="size-10" />
+												</div>
+											)}
+											<span
+												className={`absolute top-2.5 left-2.5 rounded-none px-2 py-0.5 text-[9px] font-bold uppercase ${
+													product.stock > 0
+														? "bg-white text-neutral-900 border border-neutral-200"
+														: "bg-red-600 text-white"
+												}`}
+											>
+												{product.stock > 0 ? `Stok: ${product.stock}` : "Habis"}
+											</span>
+										</div>
+
+										{/* Information */}
+										<div className="mt-4 flex flex-1 flex-col justify-between">
+											<div>
+												<h3 className="font-sans text-sm font-bold text-neutral-950 transition-colors group-hover:text-neutral-700">
+													{product.name}
+												</h3>
+												<p className="mt-1 line-clamp-2 text-xs text-neutral-500">
+													{product.description}
+												</p>
+											</div>
+
+											<div className="mt-4 flex items-center justify-between border-t border-neutral-100 pt-3">
+												<span className="font-sans text-base font-black text-neutral-950">
+													${Number(product.price).toFixed(2)}
+												</span>
+
+												{/* Action Buttons */}
+												<div className="flex items-center gap-1.5">
+													<button
+														type="button"
+														onClick={() => {
+															setEditingProduct(product);
+															setModalOpen(true);
+														}}
+														className="rounded-md border border-[#E5E2DC] bg-white p-1.5 text-neutral-700 hover:bg-neutral-100 hover:text-black"
+														title="Edit Produk"
+													>
+														<Edit className="size-3.5" />
+													</button>
+													<Link
+														to="/products/$productId"
+														params={{ productId: product.id }}
+														className="rounded-md border border-[#E5E2DC] bg-white px-2.5 py-1 text-[11px] font-bold text-neutral-800 hover:bg-neutral-100"
+														title="Detail Produk"
+													>
+														Detil
+													</Link>
+													<button
+														type="button"
+														onClick={() => {
+															setDeleteId(product.id);
+															setDeleteError("");
+														}}
+														className="rounded-md border border-red-200 bg-red-50 p-1.5 text-red-600 hover:bg-red-100"
+														title="Hapus Produk"
+													>
+														<Trash2 className="size-3.5" />
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
 								))}
-								{table.getRowModel().rows.length === 0 && (
-									<tr>
-										<td colSpan={columns.length} className="px-5 py-12 text-center text-slate-400">
-											{productsQuery.isPending
-												? "Memuat data produk..."
-												: "Tidak ada produk yang sesuai dengan pencarian."}
-										</td>
-									</tr>
-								)}
-							</tbody>
-						</table>
+							</div>
+						)}
 					</div>
-				</div>
+				)}
+
+				{/* 2. TanStack Table View */}
+				{viewMode === "table" && (
+					<div className="overflow-hidden rounded-xl border border-[#E5E2DC] bg-white shadow-xs">
+						<div className="overflow-x-auto">
+							<table className="w-full text-left text-xs">
+								<thead>
+									{table.getHeaderGroups().map((headerGroup) => (
+										<tr key={headerGroup.id} className="border-b border-[#E5E2DC] bg-[#F9F8F6]">
+											{headerGroup.headers.map((header) => (
+												<th
+													key={header.id}
+													colSpan={header.colSpan}
+													className="px-5 py-3.5 text-xs font-bold tracking-wider text-neutral-600 uppercase"
+												>
+													{header.isPlaceholder ? null : (
+														<div
+															{...{
+																className:
+																	"flex items-center gap-1.5 cursor-pointer select-none hover:text-black",
+																onClick: header.column.getToggleSortingHandler(),
+															}}
+														>
+															{flexRender(header.column.columnDef.header, header.getContext())}
+															<ArrowUpDown className="size-3 opacity-60" />
+															{{
+																asc: " ▲",
+																desc: " ▼",
+															}[header.column.getIsSorted() as string] ?? null}
+														</div>
+													)}
+												</th>
+											))}
+										</tr>
+									))}
+								</thead>
+								<tbody className="divide-y divide-[#E5E2DC] text-neutral-800">
+									{table.getRowModel().rows.map((row) => (
+										<tr key={row.id} className="transition-colors hover:bg-[#F9F8F6]">
+											{row.getAllCells().map((cell) => (
+												<td key={cell.id} className="px-5 py-3.5">
+													{flexRender(cell.column.columnDef.cell, cell.getContext())}
+												</td>
+											))}
+										</tr>
+									))}
+									{table.getRowModel().rows.length === 0 && (
+										<tr>
+											<td
+												colSpan={columns.length}
+												className="px-5 py-12 text-center text-neutral-500"
+											>
+												{productsQuery.isPending
+													? "Memuat data produk..."
+													: "Tidak ada produk yang sesuai dengan pencarian."}
+											</td>
+										</tr>
+									)}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				)}
 
 				{/* Create / Edit Product Modal */}
 				<ProductFormModal
@@ -294,26 +428,30 @@ function ProductsPage() {
 				{deleteId && (
 					<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
 						<div
-							className="fixed inset-0 bg-black/70 backdrop-blur-sm"
+							className="fixed inset-0 bg-black/50 backdrop-blur-xs"
 							onClick={() => setDeleteId(null)}
 							onKeyDown={(e) => {
 								if (e.key === "Escape") setDeleteId(null);
 							}}
 							role="presentation"
 						/>
-						<div className="relative w-full max-w-sm rounded-3xl border border-white/10 bg-[#07171d] p-6 shadow-2xl backdrop-blur-xl">
-							<h3 className="font-serif text-lg font-medium text-white">Hapus Produk Ini?</h3>
-							<p className="mt-2 text-xs leading-relaxed text-slate-400">
+						<div className="relative w-full max-w-sm rounded-xl border border-[#E5E2DC] bg-white p-6 shadow-xl">
+							<h3 className="font-serif text-lg font-bold text-neutral-950 uppercase">
+								Hapus Produk Ini?
+							</h3>
+							<p className="mt-2 text-xs leading-relaxed text-neutral-600">
 								Tindakan ini tidak dapat dibatalkan. Produk akan dihapus dari katalog memori server.
 							</p>
 							{deleteError && (
-								<p className="mt-3 text-xs text-red-400 leading-relaxed">{deleteError}</p>
+								<p className="mt-3 text-xs text-red-600 leading-relaxed font-semibold">
+									{deleteError}
+								</p>
 							)}
 							<div className="mt-6 flex items-center justify-end gap-3">
 								<button
 									type="button"
 									onClick={() => setDeleteId(null)}
-									className="rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-slate-300 hover:bg-white/5"
+									className="rounded-md border border-[#E5E2DC] bg-white px-4 py-2 text-xs font-bold text-neutral-700 hover:bg-neutral-100"
 								>
 									Batal
 								</button>
@@ -321,7 +459,7 @@ function ProductsPage() {
 									type="button"
 									onClick={confirmDelete}
 									disabled={deleteLoading}
-									className="rounded-full bg-red-500/80 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-red-500/20 hover:bg-red-500 disabled:opacity-50"
+									className="rounded-md bg-red-600 px-4 py-2 text-xs font-bold text-white hover:bg-red-700 disabled:opacity-50"
 								>
 									{deleteLoading ? "Menghapus..." : "Ya, Hapus"}
 								</button>

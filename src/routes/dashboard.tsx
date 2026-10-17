@@ -45,12 +45,12 @@ function Dashboard() {
 	return (
 		<AdminShell
 			title="Ikhtisar Dashboard"
-			subtitle="Pusat kendali ekosistem terkelola dengan validasi server-side dan autentikasi aman."
+			subtitle="Pusat kendali ekosistem katalog & tata kelola pengguna terverifikasi."
 			actions={
 				<div className="flex items-center gap-2">
 					<Link
 						to="/products/new"
-						className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-teal-400 via-emerald-400 to-teal-300 px-4 py-2 text-xs font-semibold text-slate-950 shadow-[0_0_15px_rgba(45,212,191,0.35)] transition-all hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(45,212,191,0.5)] active:scale-[0.98]"
+						className="inline-flex items-center gap-1.5 rounded-none bg-[#111111] px-5 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm"
 					>
 						<Plus className="size-3.5" />
 						<span>Tambah Produk</span>
@@ -59,23 +59,21 @@ function Dashboard() {
 			}
 		>
 			<div className="space-y-6">
-				{/* 4 Web3 Glass Metric Cards */}
+				{/* 4 Clean Minimalist Metric Cards */}
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					<MetricCard
 						title="Total Produk"
 						value={products.length}
 						sub="Katalog terdaftar aktif"
 						icon={Package}
-						trend="+100% In-Memory"
-						color="teal"
+						trend="Aktif"
 					/>
 					<MetricCard
 						title="Total Pengguna"
 						value={users.length}
-						sub="Akun dalam sesi memori"
+						sub="Akun dalam memori"
 						icon={Users}
 						trend={`${regularUserCount} User`}
-						color="cyan"
 					/>
 					<MetricCard
 						title="Administrator"
@@ -83,7 +81,6 @@ function Dashboard() {
 						sub="Akses kontrol penuh"
 						icon={ShieldCheck}
 						trend="Root Guard"
-						color="emerald"
 					/>
 					<MetricCard
 						title="Database Mode"
@@ -91,22 +88,23 @@ function Dashboard() {
 						sub="Stateless & Ephemeral"
 						icon={Database}
 						trend="Zero-latency"
-						color="purple"
 					/>
 				</div>
 
 				{/* Quick Actions & Navigation Bento Grid */}
 				<div className="grid gap-6 lg:grid-cols-12">
 					{/* Recent Products Card */}
-					<div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl lg:col-span-8">
-						<div className="flex items-center justify-between pb-4">
+					<div className="rounded-xl border border-[#E5E2DC] bg-white p-6 shadow-xs lg:col-span-8">
+						<div className="flex items-center justify-between border-b border-[#E5E2DC] pb-4">
 							<div className="flex items-center gap-2">
-								<Layers className="size-4 text-teal-400" />
-								<h2 className="font-serif text-lg font-medium text-white">Produk Terbaru</h2>
+								<Layers className="size-4 text-neutral-800" />
+								<h2 className="font-serif text-base font-bold tracking-wide text-[#111111] uppercase">
+									Produk Terbaru
+								</h2>
 							</div>
 							<Link
 								to="/products"
-								className="inline-flex items-center gap-1 text-xs font-medium text-teal-300 hover:text-teal-200"
+								className="inline-flex items-center gap-1 text-xs font-bold tracking-wider text-[#111111] uppercase hover:underline"
 							>
 								<span>Lihat Semua</span>
 								<ArrowRight className="size-3.5" />
@@ -114,7 +112,7 @@ function Dashboard() {
 						</div>
 
 						{products.length === 0 ? (
-							<div className="rounded-2xl border border-white/5 bg-white/[0.02] p-8 text-center text-sm text-slate-400">
+							<div className="rounded-lg border border-dashed border-[#E5E2DC] bg-[#F9F8F6] p-8 text-center text-sm text-neutral-500">
 								Belum ada produk di database. Klik tombol "Tambah Produk" atau jalankan Seed di
 								halaman Setup.
 							</div>
@@ -122,46 +120,50 @@ function Dashboard() {
 							<div className="overflow-x-auto">
 								<table className="w-full text-left text-xs">
 									<thead>
-										<tr className="border-b border-white/10 text-slate-400">
-											<th className="pb-3 font-semibold">Produk</th>
-											<th className="pb-3 font-semibold">Harga</th>
-											<th className="pb-3 font-semibold">Stok</th>
-											<th className="pb-3 text-right font-semibold">Aksi</th>
+										<tr className="border-b border-[#E5E2DC] text-neutral-500">
+											<th className="py-3 font-bold uppercase tracking-wider text-[10px]">
+												Produk
+											</th>
+											<th className="py-3 font-bold uppercase tracking-wider text-[10px]">Harga</th>
+											<th className="py-3 font-bold uppercase tracking-wider text-[10px]">Stok</th>
+											<th className="py-3 text-right font-bold uppercase tracking-wider text-[10px]">
+												Aksi
+											</th>
 										</tr>
 									</thead>
-									<tbody className="divide-y divide-white/5 text-slate-300">
+									<tbody className="divide-y divide-[#E5E2DC] text-neutral-800">
 										{products.slice(0, 5).map((p) => (
-											<tr key={p.id} className="transition-colors hover:bg-white/[0.02]">
+											<tr key={p.id} className="transition-colors hover:bg-[#F9F8F6]">
 												<td className="py-3 pr-4">
 													<div className="flex items-center gap-3">
 														{p.imageUrl ? (
 															<img
 																src={p.imageUrl}
 																alt={p.name}
-																className="size-8 rounded-lg object-cover"
+																className="size-9 rounded-lg border border-[#E5E2DC] object-cover"
 															/>
 														) : (
-															<div className="flex size-8 items-center justify-center rounded-lg border border-teal-500/20 bg-teal-500/10 text-teal-300">
+															<div className="flex size-9 items-center justify-center rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] text-neutral-500">
 																<Package className="size-4" />
 															</div>
 														)}
 														<div>
-															<p className="font-medium text-white">{p.name}</p>
-															<p className="max-w-xs truncate text-[11px] text-slate-400">
+															<p className="font-bold text-neutral-950">{p.name}</p>
+															<p className="max-w-xs truncate text-[11px] text-neutral-500">
 																{p.description}
 															</p>
 														</div>
 													</div>
 												</td>
-												<td className="py-3 font-mono text-teal-300">
+												<td className="py-3 font-bold text-neutral-950">
 													${Number(p.price).toFixed(2)}
 												</td>
 												<td className="py-3">
 													<span
-														className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+														className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
 															p.stock > 0
-																? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-																: "border border-red-500/30 bg-red-500/10 text-red-300"
+																? "border border-neutral-200 bg-neutral-100 text-neutral-800"
+																: "border border-red-200 bg-red-50 text-red-700"
 														}`}
 													>
 														{p.stock > 0 ? `${p.stock} unit` : "Habis"}
@@ -171,7 +173,7 @@ function Dashboard() {
 													<Link
 														to="/products/$productId"
 														params={{ productId: p.id }}
-														className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-slate-300 hover:bg-white/10 hover:text-white"
+														className="rounded-md border border-[#E5E2DC] bg-white px-3 py-1 text-[11px] font-bold text-neutral-800 transition-colors hover:bg-neutral-100 hover:text-black"
 													>
 														Edit
 													</Link>
@@ -186,41 +188,43 @@ function Dashboard() {
 
 					{/* System Status / Quick Info */}
 					<div className="space-y-4 lg:col-span-4">
-						<div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl">
-							<div className="flex items-center gap-2">
-								<Activity className="size-4 text-emerald-400" />
-								<h2 className="font-serif text-lg font-medium text-white">Status Sistem</h2>
+						<div className="rounded-xl border border-[#E5E2DC] bg-white p-6 shadow-xs">
+							<div className="flex items-center gap-2 border-b border-[#E5E2DC] pb-4">
+								<Activity className="size-4 text-neutral-800" />
+								<h2 className="font-serif text-base font-bold tracking-wide text-[#111111] uppercase">
+									Status Sistem
+								</h2>
 							</div>
 
 							<div className="mt-4 space-y-3 text-xs">
-								<div className="flex items-center justify-between border-b border-white/5 pb-2">
-									<span className="text-slate-400">Engine Autentikasi</span>
-									<span className="font-semibold text-teal-300">Better Auth v1.5</span>
+								<div className="flex items-center justify-between border-b border-[#E5E2DC] pb-2">
+									<span className="text-neutral-500">Engine Autentikasi</span>
+									<span className="font-bold text-neutral-900">Better Auth v1.5</span>
 								</div>
-								<div className="flex items-center justify-between border-b border-white/5 pb-2">
-									<span className="text-slate-400">Framework</span>
-									<span className="font-semibold text-teal-300">TanStack Start (React 19)</span>
+								<div className="flex items-center justify-between border-b border-[#E5E2DC] pb-2">
+									<span className="text-neutral-500">Framework</span>
+									<span className="font-bold text-neutral-900">TanStack Start (React 19)</span>
 								</div>
-								<div className="flex items-center justify-between border-b border-white/5 pb-2">
-									<span className="text-slate-400">Proteksi Rate Limit</span>
-									<span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-semibold text-emerald-300">
-										Aktif (5 Percobaan)
+								<div className="flex items-center justify-between border-b border-[#E5E2DC] pb-2">
+									<span className="text-neutral-500">Proteksi Rate Limit</span>
+									<span className="rounded-full border border-neutral-200 bg-neutral-100 px-2 py-0.5 font-bold text-[10px] text-neutral-800">
+										Aktif (5x Limit)
 									</span>
 								</div>
 								<div className="flex items-center justify-between pb-1">
-									<span className="text-slate-400">Aturan Self-Demote</span>
-									<span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-semibold text-emerald-300">
+									<span className="text-neutral-500">Aturan Self-Demote</span>
+									<span className="rounded-full border border-neutral-200 bg-neutral-100 px-2 py-0.5 font-bold text-[10px] text-neutral-800">
 										Terkunci (Protected)
 									</span>
 								</div>
 							</div>
 
-							<div className="mt-6">
+							<div className="mt-6 border-t border-[#E5E2DC] pt-4">
 								<Link
 									to="/setup"
-									className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 py-2.5 text-xs font-semibold text-slate-200 transition-all hover:bg-white/10 hover:text-white"
+									className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] py-2.5 text-xs font-bold text-neutral-800 transition-colors hover:bg-neutral-100 hover:text-black"
 								>
-									<Sparkles className="size-3.5 text-teal-400" />
+									<Sparkles className="size-3.5" />
 									<span>Cek Halaman Setup & Seed</span>
 								</Link>
 							</div>
@@ -238,38 +242,27 @@ function MetricCard({
 	sub,
 	icon: Icon,
 	trend,
-	color,
 }: {
 	title: string;
 	value: string | number;
 	sub: string;
 	icon: React.ComponentType<{ className?: string }>;
 	trend: string;
-	color: "teal" | "cyan" | "emerald" | "purple";
 }) {
-	const colorClasses = {
-		teal: "border-teal-500/20 bg-teal-500/10 text-teal-300",
-		cyan: "border-cyan-500/20 bg-cyan-500/10 text-cyan-300",
-		emerald: "border-emerald-500/20 bg-emerald-500/10 text-emerald-300",
-		purple: "border-purple-500/20 bg-purple-500/10 text-purple-300",
-	};
-
 	return (
-		<div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-5 shadow-[0_4px_24px_0_rgba(0,0,0,0.3)] backdrop-blur-xl transition-all hover:border-teal-400/30 hover:shadow-[0_0_25px_rgba(45,212,191,0.12)]">
+		<div className="rounded-xl border border-[#E5E2DC] bg-white p-5 shadow-xs transition-all hover:border-black hover:shadow-sm">
 			<div className="flex items-center justify-between">
-				<span className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
+				<span className="text-[10px] font-bold tracking-wider text-neutral-500 uppercase">
 					{title}
 				</span>
-				<div
-					className={`flex size-8 items-center justify-center rounded-xl border ${colorClasses[color]}`}
-				>
+				<div className="flex size-8 items-center justify-center rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] text-neutral-800">
 					<Icon className="size-4" />
 				</div>
 			</div>
-			<p className="mt-3 font-serif text-3xl font-light text-white">{value}</p>
+			<p className="mt-3 font-sans text-3xl font-black text-[#111111]">{value}</p>
 			<div className="mt-2 flex items-center justify-between text-xs">
-				<span className="text-slate-500">{sub}</span>
-				<span className="rounded-full bg-white/5 px-2 py-0.5 font-mono text-[10px] text-teal-300">
+				<span className="text-[11px] text-neutral-500">{sub}</span>
+				<span className="rounded-full border border-neutral-200 bg-neutral-100 px-2 py-0.5 text-[10px] font-bold text-neutral-700">
 					{trend}
 				</span>
 			</div>

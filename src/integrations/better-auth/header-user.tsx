@@ -7,17 +7,17 @@ export default function BetterAuthHeader() {
 	const { data: session, isPending } = authClient.useSession();
 
 	if (isPending) {
-		return <div className="size-7 animate-pulse rounded-full bg-white/10" />;
+		return <div className="size-7 animate-pulse rounded-full bg-neutral-200" />;
 	}
 
 	if (session?.user) {
 		return (
-			<div className="flex items-center gap-3">
-				<div className="flex items-center gap-2 border-b border-white/20 pb-0.5">
-					<div className="flex size-5 items-center justify-center rounded-full bg-white/10 text-[10px] font-medium text-white">
+			<div className="flex items-center gap-2.5">
+				<div className="flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-3 py-1 shadow-xs">
+					<div className="flex size-5 items-center justify-center rounded-full bg-[#111111] text-[10px] font-bold text-white">
 						{session.user.name?.charAt(0).toUpperCase() || <User className="size-3" />}
 					</div>
-					<span className="max-w-[120px] truncate text-[11px] font-medium tracking-wider uppercase text-white/90">
+					<span className="max-w-[120px] truncate text-[11px] font-medium tracking-wide text-neutral-900">
 						{session.user.name || session.user.email}
 					</span>
 				</div>
@@ -28,7 +28,7 @@ export default function BetterAuthHeader() {
 						navigate({ to: "/login" });
 					}}
 					title="Sign Out"
-					className="text-white/60 transition-colors hover:text-white"
+					className="rounded-full p-1.5 text-neutral-500 transition-colors hover:bg-neutral-200 hover:text-black"
 				>
 					<LogOut className="size-3.5" />
 					<span className="sr-only">Sign out</span>
@@ -40,7 +40,7 @@ export default function BetterAuthHeader() {
 	return (
 		<Link
 			to="/login"
-			className="border border-white/30 bg-transparent px-4 py-1.5 text-[11px] font-medium tracking-[0.2em] uppercase text-white transition-all hover:bg-white hover:text-black"
+			className="rounded-none bg-[#111111] px-4 py-1.5 text-[11px] font-semibold tracking-[0.15em] uppercase text-white transition-all hover:bg-neutral-800 shadow-xs"
 		>
 			Sign In
 		</Link>

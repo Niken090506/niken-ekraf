@@ -105,53 +105,43 @@ function LoginPage() {
 	};
 
 	return (
-		<main className="relative flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 py-16">
-			{/* Ambient Glowing Web3 Auroras */}
-			<div
-				className="pointer-events-none absolute -top-24 left-1/2 size-96 -translate-x-1/2 rounded-full bg-teal-500/15 blur-[120px]"
-				aria-hidden="true"
-			/>
-			<div
-				className="pointer-events-none absolute -bottom-20 right-1/4 size-80 rounded-full bg-emerald-500/10 blur-[100px]"
-				aria-hidden="true"
-			/>
-
-			{/* Centered Glassmorphic Card */}
-			<div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.45)] backdrop-blur-2xl sm:p-10">
-				{/* Top Branding Pill */}
-				<div className="mb-6 flex items-center justify-between">
-					<div className="inline-flex items-center gap-2 rounded-full border border-teal-500/20 bg-teal-500/10 px-3.5 py-1 text-xs font-semibold text-teal-300">
-						<Sparkles className="size-3.5" />
-						<span>{BRAND.short} Auth</span>
+		<main className="flex min-h-[calc(100vh-10rem)] items-center justify-center bg-[#F9F8F6] px-4 py-16 antialiased">
+			{/* Centered Luxury Card */}
+			<div className="w-full max-w-md rounded-xl border border-[#E5E2DC] bg-white p-8 shadow-xs sm:p-10">
+				{/* Top Branding */}
+				<div className="mb-6 flex items-center justify-between border-b border-[#E5E2DC] pb-4">
+					<div className="inline-flex items-center gap-1.5 rounded-none border border-[#E5E2DC] bg-[#F2EFE9] px-3 py-1 text-[10px] font-bold tracking-widest text-neutral-800 uppercase">
+						<Sparkles className="size-3" />
+						<span>NORD &bull; {BRAND.short}</span>
 					</div>
 					<Link
 						to="/setup"
-						className="text-xs text-teal-400/80 transition-colors hover:text-teal-300 hover:underline"
+						className="text-xs font-bold text-neutral-600 hover:text-black hover:underline"
 					>
-						Seed Akun Admin &rarr;
+						Seed Admin &rarr;
 					</Link>
 				</div>
 
 				{/* Title */}
-				<h1 className="font-serif text-3xl font-normal tracking-tight text-white sm:text-4xl">
-					{isSignUp ? "Daftar Akun" : "Selamat Datang"}
+				<h1 className="font-serif text-2xl font-bold tracking-wide text-neutral-950 uppercase sm:text-3xl">
+					{isSignUp ? "Daftar Akun Baru" : "Selamat Datang"}
 				</h1>
-				<p className="mt-2 text-sm leading-relaxed text-slate-400">
+				<p className="mt-2 text-xs leading-relaxed text-neutral-500">
 					{isSignUp
-						? "Lengkapi identitas untuk mendapatkan akses ke platform katalog Ekraf."
-						: "Masuk ke ekosistem terkelola untuk mengelola produk dan pengguna."}
+						? "Lengkapi identitas untuk bergabung dalam ekosistem katalog kurasi ekonomi kreatif."
+						: "Masuk ke panel terkelola untuk mengelola produk dan hak akses."}
 				</p>
 
 				{/* Toggle Switch */}
-				<div className="mt-6 flex border border-white/20 bg-black/40 p-1 backdrop-blur-md">
+				<div className="mt-6 flex rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] p-1">
 					<button
 						type="button"
 						onClick={() => {
 							setIsSignUp(false);
 							setError("");
 						}}
-						className={`flex-1 py-2 text-xs font-medium tracking-[0.2em] uppercase transition-all ${
-							!isSignUp ? "bg-white text-black font-semibold" : "text-white/60 hover:text-white"
+						className={`flex-1 rounded-md py-2 text-xs font-bold tracking-wider uppercase transition-all ${
+							!isSignUp ? "bg-[#111111] text-white shadow-xs" : "text-neutral-500 hover:text-black"
 						}`}
 					>
 						Masuk
@@ -162,8 +152,8 @@ function LoginPage() {
 							setIsSignUp(true);
 							setError("");
 						}}
-						className={`flex-1 py-2 text-xs font-medium tracking-[0.2em] uppercase transition-all ${
-							isSignUp ? "bg-white text-black font-semibold" : "text-white/60 hover:text-white"
+						className={`flex-1 rounded-md py-2 text-xs font-bold tracking-wider uppercase transition-all ${
+							isSignUp ? "bg-[#111111] text-white shadow-xs" : "text-neutral-500 hover:text-black"
 						}`}
 					>
 						Daftar
@@ -172,12 +162,12 @@ function LoginPage() {
 
 				{/* Lockout Banner */}
 				{lockoutSeconds > 0 && (
-					<div className="mt-5 flex items-start gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-amber-300">
-						<ShieldAlert className="mt-0.5 size-5 shrink-0" />
+					<div className="mt-5 flex items-start gap-2.5 rounded-lg border border-amber-300 bg-amber-50 p-3.5 text-amber-800">
+						<ShieldAlert className="mt-0.5 size-4 shrink-0" />
 						<div className="text-xs">
-							<p className="font-semibold">Proteksi Keamanan Aktif</p>
-							<p className="mt-0.5">
-								Terkunci karena proteksi brute-force. Sisa waktu: {lockoutSeconds} detik.
+							<p className="font-bold">Proteksi Keamanan Aktif</p>
+							<p className="mt-0.5 text-neutral-600">
+								Terkunci karena brute-force guard. Sisa waktu: {lockoutSeconds} detik.
 							</p>
 						</div>
 					</div>
@@ -185,21 +175,24 @@ function LoginPage() {
 
 				{/* Error Alert */}
 				{error && lockoutSeconds === 0 && (
-					<div className="mt-5 flex items-start gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-3.5 text-red-300">
-						<ShieldAlert className="mt-0.5 size-5 shrink-0" />
-						<p className="text-xs leading-relaxed">{error}</p>
+					<div className="mt-5 flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 p-3.5 text-red-600">
+						<ShieldAlert className="mt-0.5 size-4 shrink-0" />
+						<p className="text-xs font-semibold leading-relaxed">{error}</p>
 					</div>
 				)}
 
 				{/* Form */}
 				<form onSubmit={handleSubmit} className="mt-6 space-y-4">
 					{isSignUp && (
-						<div className="space-y-1.5">
-							<label htmlFor="name" className="text-xs font-medium text-slate-300">
+						<div className="space-y-1">
+							<label
+								htmlFor="name"
+								className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+							>
 								Nama Lengkap
 							</label>
 							<div className="relative">
-								<User className="absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-slate-400" />
+								<User className="absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-neutral-400" />
 								<input
 									id="name"
 									type="text"
@@ -207,18 +200,21 @@ function LoginPage() {
 									onChange={(e) => setName(e.target.value)}
 									placeholder="e.g. John Doe"
 									required
-									className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-2.5 pr-4 pl-10 text-sm text-white placeholder-slate-500 transition-all focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+									className="w-full rounded-lg border border-[#E5E2DC] bg-white py-2.5 pr-4 pl-10 text-xs font-medium text-neutral-900 placeholder-neutral-400 transition-all focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 								/>
 							</div>
 						</div>
 					)}
 
-					<div className="space-y-1.5">
-						<label htmlFor="email" className="text-xs font-medium text-slate-300">
+					<div className="space-y-1">
+						<label
+							htmlFor="email"
+							className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+						>
 							Alamat Email
 						</label>
 						<div className="relative">
-							<Mail className="absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-slate-400" />
+							<Mail className="absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-neutral-400" />
 							<input
 								id="email"
 								type="email"
@@ -226,17 +222,20 @@ function LoginPage() {
 								onChange={(e) => setEmail(e.target.value)}
 								placeholder="admin@example.com"
 								required
-								className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-2.5 pr-4 pl-10 text-sm text-white placeholder-slate-500 transition-all focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+								className="w-full rounded-lg border border-[#E5E2DC] bg-white py-2.5 pr-4 pl-10 text-xs font-medium text-neutral-900 placeholder-neutral-400 transition-all focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 							/>
 						</div>
 					</div>
 
-					<div className="space-y-1.5">
-						<label htmlFor="password" className="text-xs font-medium text-slate-300">
+					<div className="space-y-1">
+						<label
+							htmlFor="password"
+							className="text-xs font-bold text-neutral-800 uppercase tracking-wider"
+						>
 							Kata Sandi
 						</label>
 						<div className="relative">
-							<Lock className="absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-slate-400" />
+							<Lock className="absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-neutral-400" />
 							<input
 								id="password"
 								type={showPassword ? "text" : "password"}
@@ -244,46 +243,29 @@ function LoginPage() {
 								onChange={(e) => setPassword(e.target.value)}
 								placeholder="••••••••"
 								required
-								minLength={8}
-								className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-2.5 pr-10 pl-10 text-sm text-white placeholder-slate-500 transition-all focus:border-teal-400/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-teal-400/20 focus:outline-none"
+								minLength={6}
+								className="w-full rounded-lg border border-[#E5E2DC] bg-white py-2.5 pr-10 pl-10 text-xs font-medium text-neutral-900 placeholder-neutral-400 transition-all focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 							/>
 							<button
 								type="button"
 								onClick={() => setShowPassword(!showPassword)}
-								className="absolute top-1/2 right-3.5 -translate-y-1/2 text-slate-400 transition-colors hover:text-white"
+								className="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-black"
+								tabIndex={-1}
 							>
 								{showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
 							</button>
 						</div>
 					</div>
 
-					{/* Action Button */}
 					<button
 						type="submit"
 						disabled={loading || lockoutSeconds > 0}
-						className="mt-6 flex w-full items-center justify-center gap-2 border border-white/50 bg-transparent py-3.5 text-xs font-medium tracking-[0.25em] uppercase text-white transition-all hover:bg-white hover:text-black disabled:opacity-40"
+						className="mt-6 flex w-full items-center justify-center gap-2 rounded-none bg-[#111111] py-3 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm disabled:opacity-50"
 					>
-						{loading ? (
-							<div className="flex items-center gap-2">
-								<span className="size-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-								<span>Memproses...</span>
-							</div>
-						) : (
-							<>
-								<span>{isSignUp ? "Daftar Akun Baru" : "Masuk ke Sistem"}</span>
-								<ArrowRight className="size-3.5" />
-							</>
-						)}
+						<span>{loading ? "Memverifikasi..." : isSignUp ? "Daftar Akun" : "Masuk ke Akun"}</span>
+						<ArrowRight className="size-3.5" />
 					</button>
 				</form>
-
-				{/* Footer Info */}
-				<div className="mt-8 border-t border-white/10 pt-4 text-center">
-					<p className="text-xs text-slate-400">
-						Seed akun bawaan:{" "}
-						<span className="font-mono text-teal-300">admin@example.com / admin12345</span>
-					</p>
-				</div>
 			</div>
 		</main>
 	);
