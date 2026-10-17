@@ -1,0 +1,711 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Editorial Nature / High-End Minimalist Design Tokens.
+ *
+ * Inspired by luxury outdoor & lifestyle editorial publications:
+ * Deep misty evergreen forest, dark slate mountain stone, clean ivory text,
+ * hairline borders, and majestic serif typography.
+ */
+:root {
+	--sea-ink: #141c18;
+	--sea-ink-soft: #42524a;
+	--lagoon: #263830;
+	--lagoon-deep: #1b2822;
+	--palm: #3d5448;
+	--sand: #e8ebe9;
+	--foam: #f4f6f4;
+	--surface: rgba(255, 255, 255, 0.92);
+	--surface-strong: rgba(255, 255, 255, 0.98);
+	--line: rgba(20, 28, 24, 0.12);
+	--inset-glint: rgba(255, 255, 255, 0.9);
+	--kicker: #3d5448;
+	--bg-base: #f7f8f7;
+	--header-bg: rgba(247, 248, 247, 0.9);
+	--chip-bg: rgba(255, 255, 255, 0.9);
+	--chip-line: rgba(20, 28, 24, 0.14);
+	--link-bg-hover: rgba(20, 28, 24, 0.05);
+	--hero-a: rgba(40, 56, 48, 0.08);
+	--hero-b: rgba(20, 28, 24, 0.05);
+
+	--background: #f2fbf9;
+	--foreground: #042f2e;
+	--card: #ffffff;
+	--card-foreground: #042f2e;
+	--popover: #ffffff;
+	--popover-foreground: #042f2e;
+	--primary: #0d9488;
+	--primary-foreground: #ffffff;
+	--secondary: #e6fffa;
+	--secondary-foreground: #0f766e;
+	--muted: #e6fffa;
+	--muted-foreground: #115e59;
+	--accent: #ccfbf1;
+	--accent-foreground: #0f766e;
+	--destructive: #ef4444;
+	--destructive-foreground: #ffffff;
+	--border: rgba(13, 148, 136, 0.18);
+	--input: rgba(13, 148, 136, 0.18);
+	--ring: #14b8a6;
+	--chart-1: #0d9488;
+	--chart-2: #14b8a6;
+	--chart-3: #2dd4bf;
+	--chart-4: #5eead4;
+	--chart-5: #99f6e4;
+	--radius: 0.75rem;
+	--sidebar: #ffffff;
+	--sidebar-foreground: #042f2e;
+	--sidebar-primary: #0d9488;
+	--sidebar-primary-foreground: #ffffff;
+	--sidebar-accent: #e6fffa;
+	--sidebar-accent-foreground: #0f766e;
+	--sidebar-border: rgba(13, 148, 136, 0.16);
+	--sidebar-ring: #14b8a6;
+}
+
+.dark {
+	--sea-ink: #f5f6f5;
+	--sea-ink-soft: #9eaba4;
+	--lagoon: #d4ded9;
+	--lagoon-deep: #b2c0b9;
+	--palm: #8ca399;
+	--sand: #0d1411;
+	--foam: #080d0b;
+	--surface: rgba(255, 255, 255, 0.03);
+	--surface-strong: rgba(255, 255, 255, 0.05);
+	--line: rgba(255, 255, 255, 0.1);
+	--inset-glint: rgba(255, 255, 255, 0.08);
+	--kicker: #a7b6af;
+	--bg-base: #090e0c;
+	--header-bg: rgba(9, 14, 12, 0.85);
+	--chip-bg: rgba(255, 255, 255, 0.04);
+	--chip-line: rgba(255, 255, 255, 0.1);
+	--link-bg-hover: rgba(255, 255, 255, 0.06);
+	--hero-a: rgba(255, 255, 255, 0.04);
+	--hero-b: rgba(255, 255, 255, 0.02);
+
+	--background: #090e0c;
+	--foreground: #f5f6f5;
+	--card: #0d1411;
+	--card-foreground: #f5f6f5;
+	--popover: #0d1411;
+	--popover-foreground: #f5f6f5;
+	--primary: #ffffff;
+	--primary-foreground: #090e0c;
+	--secondary: #16201b;
+	--secondary-foreground: #f5f6f5;
+	--muted: #131c18;
+	--muted-foreground: #9eaba4;
+	--accent: #192520;
+	--accent-foreground: #ffffff;
+	--destructive: #ef4444;
+	--destructive-foreground: #ffffff;
+	--border: rgba(255, 255, 255, 0.1);
+	--input: rgba(255, 255, 255, 0.1);
+	--ring: rgba(255, 255, 255, 0.3);
+	--chart-1: #ffffff;
+	--chart-2: #d4ded9;
+	--chart-3: #9eaba4;
+	--chart-4: #6d7d74;
+	--chart-5: #3d5448;
+	--sidebar: #070b09;
+	--sidebar-foreground: #f5f6f5;
+	--sidebar-primary: #ffffff;
+	--sidebar-primary-foreground: #090e0c;
+	--sidebar-accent: #131c18;
+	--sidebar-accent-foreground: #ffffff;
+	--sidebar-border: rgba(255, 255, 255, 0.1);
+	--sidebar-ring: rgba(255, 255, 255, 0.3);
+}
+
+@theme inline {
+	--font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+	--font-serif: "Playfair Display", "Cormorant Garamond", "Fraunces", Georgia, serif;
+	--font-mono: "Space Grotesk", ui-monospace, monospace;
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+}
+
+html,
+body,
+#app {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	color: var(--sea-ink);
+	font-family: var(--font-sans);
+	background-color: var(--bg-base);
+	background-image: radial-gradient(1100px 620px at -8% -10%, var(--hero-a), transparent 58%),
+		radial-gradient(1050px 620px at 112% -12%, var(--hero-b), transparent 62%),
+		linear-gradient(180deg, var(--foam) 0%, var(--bg-base) 58%, var(--bg-base) 100%);
+	overflow-x: hidden;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: -1;
+	opacity: 0.32;
+	background: radial-gradient(
+			circle at 20% 15%,
+			color-mix(in oklab, white 42%, transparent),
+			transparent 34%
+		),
+		radial-gradient(
+			circle at 78% 26%,
+			color-mix(in oklab, var(--sea-ink) 6%, transparent),
+			transparent 42%
+		),
+		radial-gradient(
+			circle at 42% 82%,
+			color-mix(in oklab, var(--sea-ink) 4%, transparent),
+			transparent 36%
+		);
+}
+
+body::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: -1;
+	opacity: 0.6;
+	background-image: linear-gradient(
+			color-mix(in oklab, var(--sea-ink) 7%, transparent) 1px,
+			transparent 1px
+		),
+		linear-gradient(90deg, color-mix(in oklab, var(--sea-ink) 7%, transparent) 1px, transparent 1px);
+	background-size: 32px 32px;
+	mask-image: radial-gradient(circle at 50% 22%, black, transparent 76%);
+}
+
+::selection {
+	background: color-mix(in oklab, var(--sea-ink) 18%, transparent);
+}
+
+a {
+	color: var(--lagoon-deep);
+	text-decoration-color: color-mix(in oklab, var(--sea-ink) 30%, transparent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+}
+
+a:hover {
+	color: var(--sea-ink);
+}
+
+code {
+	font-size: 0.9em;
+	border: 1px solid var(--line);
+	background: color-mix(in oklab, var(--surface-strong) 82%, white 18%);
+	border-radius: 7px;
+	padding: 2px 7px;
+}
+
+pre code {
+	border: 0;
+	background: transparent;
+	padding: 0;
+	border-radius: 0;
+	font-size: inherit;
+	color: inherit;
+}
+
+.prose pre {
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: #0a0a0d;
+	color: #f4f4f5;
+}
+
+.page-wrap {
+	width: min(1120px, calc(100% - 2rem));
+	margin-inline: auto;
+}
+
+.display-title {
+	font-family: "Fraunces", Georgia, serif;
+}
+
+/* Tight, editorial heading used by the futuristic hero. */
+.display-hero {
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	line-height: 0.98;
+}
+
+.island-shell {
+	border: 1px solid var(--line);
+	background: linear-gradient(165deg, var(--surface-strong), var(--surface));
+	box-shadow: 0 1px 0 var(--inset-glint) inset, 0 22px 44px rgba(0, 0, 0, 0.1), 0 6px 18px
+		rgba(0, 0, 0, 0.06);
+	backdrop-filter: blur(4px);
+}
+
+.feature-card {
+	background: linear-gradient(
+		165deg,
+		color-mix(in oklab, var(--surface-strong) 93%, white 7%),
+		var(--surface)
+	);
+	box-shadow: 0 1px 0 var(--inset-glint) inset, 0 18px 34px rgba(0, 0, 0, 0.1), 0 4px 14px
+		rgba(0, 0, 0, 0.05);
+}
+
+.feature-card:hover {
+	transform: translateY(-2px);
+	border-color: color-mix(in oklab, var(--sea-ink) 30%, var(--line));
+}
+
+button,
+.island-shell,
+a {
+	transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform
+		180ms ease;
+}
+
+.island-kicker {
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 0.69rem;
+	color: var(--kicker);
+}
+
+.nav-link {
+	position: relative;
+	text-decoration: none;
+	color: var(--sea-ink-soft);
+}
+
+.nav-link::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -8px;
+	width: 100%;
+	height: 2px;
+	transform: scaleX(0);
+	transform-origin: left;
+	background: linear-gradient(90deg, var(--sea-ink), var(--lagoon-deep));
+	transition: transform 170ms ease;
+}
+
+.nav-link:hover,
+.nav-link.is-active {
+	color: var(--sea-ink);
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+	transform: scaleX(1);
+}
+
+.rise-in {
+	animation: rise-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes rise-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.site-footer {
+	border-top: 1px solid var(--line);
+	background: color-mix(in oklab, var(--header-bg) 84%, transparent 16%);
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		background-color: var(--background);
+		color: var(--foreground);
+	}
+}
+
+/* =====================================================================
+   Ekraf design extensions
+   Additive utilities layered on top of the existing island/sea theme.
+   Nothing here replaces the tokens or classes defined above.
+   ===================================================================== */
+
+/* Surface used by bento grids, cards and panels. */
+.bento-card {
+	position: relative;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	background: linear-gradient(
+		165deg,
+		color-mix(in oklab, var(--surface-strong) 94%, white 6%),
+		var(--surface)
+	);
+	box-shadow: 0 1px 0 var(--inset-glint) inset, 0 18px 36px rgba(0, 0, 0, 0.1), 0 4px 14px
+		rgba(0, 0, 0, 0.05);
+	transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.bento-card--interactive:hover {
+	transform: translateY(-3px);
+	border-color: color-mix(in oklab, var(--sea-ink) 32%, var(--line));
+	box-shadow: 0 1px 0 var(--inset-glint) inset, 0 24px 46px rgba(0, 0, 0, 0.16), 0 8px 20px
+		rgba(0, 0, 0, 0.08);
+}
+
+/* Accent glow keyed off a local --accent custom property. */
+.accent-glow {
+	border-top: 2px solid color-mix(in oklab, var(--accent, var(--sea-ink)) 70%, transparent);
+}
+
+.accent-glow::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+	opacity: 0;
+	background: radial-gradient(
+		120% 80% at 50% 0%,
+		color-mix(in oklab, var(--accent, var(--sea-ink)) 20%, transparent),
+		transparent 70%
+	);
+	transition: opacity 220ms ease;
+}
+
+.accent-glow:hover::after {
+	opacity: 1;
+}
+
+/* Gradient text for display headings (subtle metallic sheen, both modes). */
+.text-gradient {
+	background: linear-gradient(
+		100deg,
+		var(--sea-ink),
+		color-mix(in oklab, var(--sea-ink) 55%, var(--sea-ink-soft)) 60%,
+		var(--sea-ink-soft)
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+/* Loading shimmer. */
+.skeleton {
+	position: relative;
+	overflow: hidden;
+	background: color-mix(in oklab, var(--sea-ink-soft) 14%, transparent);
+}
+
+.skeleton::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	transform: translateX(-100%);
+	background: linear-gradient(
+		90deg,
+		transparent,
+		color-mix(in oklab, var(--surface-strong) 65%, transparent),
+		transparent
+	);
+	animation: ekraf-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes ekraf-shimmer {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+/* Toast entrance. */
+.toast-card {
+	animation: ekraf-toast-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ekraf-toast-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* Staggered reveal helper for grids/lists (pair with inline animation-delay). */
+.stagger-in {
+	animation: rise-in 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* =====================================================================
+   Futuristic hero + bento utilities
+   ===================================================================== */
+
+/* Fine grid backdrop for the hero panel. */
+.hero-grid {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: linear-gradient(
+			color-mix(in oklab, var(--sea-ink) 8%, transparent) 1px,
+			transparent 1px
+		),
+		linear-gradient(90deg, color-mix(in oklab, var(--sea-ink) 8%, transparent) 1px, transparent 1px);
+	background-size: 44px 44px;
+	mask-image: radial-gradient(120% 90% at 70% 0%, black, transparent 72%);
+}
+
+/* Soft monochrome orb used inside the asymmetric hero visual. */
+.hero-orb {
+	position: absolute;
+	border-radius: 9999px;
+	background: radial-gradient(
+		circle at 32% 32%,
+		color-mix(in oklab, var(--sea-ink) 26%, transparent),
+		transparent 64%
+	);
+	filter: blur(6px);
+	animation: ekraf-drift 12s ease-in-out infinite alternate;
+}
+
+@keyframes ekraf-drift {
+	from {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	to {
+		transform: translate3d(0, -14px, 0) scale(1.06);
+	}
+}
+
+/* Thin hairline divider. */
+.hairline {
+	height: 1px;
+	width: 100%;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		color-mix(in oklab, var(--sea-ink) 22%, transparent),
+		transparent
+	);
+}
+
+/* Bento tile: bento-card with consistent internal layout. */
+.bento-tile {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: 1.25rem;
+}
+
+/* Infinite marquee ticker (content duplicated in markup). */
+.marquee {
+	overflow: hidden;
+	mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-track {
+	display: flex;
+	width: max-content;
+	align-items: center;
+	gap: 2.75rem;
+	animation: ekraf-marquee 38s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+	animation-play-state: paused;
+}
+
+@keyframes ekraf-marquee {
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+/* =====================================================================
+   Demo page styles
+   These classes were referenced from src/routes/demo/better-auth.tsx but
+   were never defined, leaving the demo page unstyled. Defined here to match
+   the existing sea/island theme.
+   ===================================================================== */
+
+.demo-page {
+	min-height: 72vh;
+	padding: 3rem 1rem;
+}
+
+.demo-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.demo-panel {
+	border: 1px solid var(--line);
+	border-radius: 1.25rem;
+	background: linear-gradient(165deg, var(--surface-strong), var(--surface));
+	box-shadow: 0 1px 0 var(--inset-glint) inset, 0 22px 44px rgba(0, 0, 0, 0.1), 0 6px 18px
+		rgba(0, 0, 0, 0.06);
+	backdrop-filter: blur(4px);
+	padding: 2rem;
+}
+
+.demo-title {
+	font-family: "Fraunces", Georgia, serif;
+	font-size: 1.75rem;
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--sea-ink);
+	margin: 0;
+}
+
+.demo-muted {
+	color: var(--sea-ink-soft);
+}
+
+.demo-input {
+	width: 100%;
+	height: 2.4rem;
+	border: 1px solid var(--line);
+	border-radius: 0.65rem;
+	background: var(--chip-bg);
+	padding: 0 0.85rem;
+	color: var(--sea-ink);
+	outline: none;
+	transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.demo-input::placeholder {
+	color: var(--sea-ink-soft);
+	opacity: 0.7;
+}
+
+.demo-input:focus-visible {
+	border-color: var(--sea-ink);
+	box-shadow: 0 0 0 3px color-mix(in oklab, var(--sea-ink) 26%, transparent);
+}
+
+.demo-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	height: 2.5rem;
+	border: 1px solid transparent;
+	border-radius: 0.75rem;
+	background: linear-gradient(120deg, var(--lagoon-deep), var(--sea-ink));
+	padding: 0 1.1rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--background);
+	cursor: pointer;
+	transition: transform 180ms ease, filter 180ms ease, opacity 180ms ease;
+}
+
+.demo-button:hover:not(:disabled) {
+	transform: translateY(-1px);
+	filter: brightness(1.08);
+}
+
+.demo-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.demo-button-secondary {
+	background: var(--chip-bg);
+	border-color: var(--line);
+	color: var(--sea-ink);
+}
+
+.demo-button-secondary:hover:not(:disabled) {
+	background: var(--link-bg-hover);
+}
+
+.demo-alert {
+	border: 1px solid var(--line);
+	border-radius: 0.75rem;
+	background: var(--chip-bg);
+	padding: 0.85rem 1rem;
+}
+
+.demo-alert-danger {
+	border-color: color-mix(in oklab, #dc2626 42%, var(--line));
+	background: color-mix(in oklab, #dc2626 10%, var(--chip-bg));
+}
+
+/* =====================================================================
+   Motion preferences
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+	.rise-in,
+	.stagger-in,
+	.toast-card,
+	.hero-orb {
+		animation: none;
+	}
+
+	.skeleton::after,
+	.marquee-track {
+		animation: none;
+	}
+
+	.bento-card,
+	.bento-card--interactive:hover,
+	.feature-card:hover {
+		transform: none;
+		transition: none;
+	}
+}
