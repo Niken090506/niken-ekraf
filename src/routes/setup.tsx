@@ -79,15 +79,17 @@ function Setup() {
 						type="button"
 						onClick={handleSeed}
 						disabled={status === "loading"}
-						className="inline-flex items-center justify-center gap-2 rounded-none bg-[#111111] px-6 py-3 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm disabled:opacity-50"
+						className="inline-flex items-center justify-center gap-2 rounded-none bg-[#111111] px-6 py-3 text-xs font-bold tracking-wider !text-white text-white uppercase transition-all duration-300 hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg shadow-sm disabled:opacity-50 [&_svg]:!text-white [&_svg]:text-white"
 					>
-						<KeyRound className="size-4" />
-						{status === "loading" ? "Memproses Seed..." : "Jalankan Seed Admin"}
+						<KeyRound className="size-4 !text-white text-white" />
+						<span className="!text-white text-white">
+							{status === "loading" ? "Memproses Seed..." : "Jalankan Seed Admin"}
+						</span>
 					</button>
 
 					<Link
 						to="/login"
-						className="inline-flex items-center justify-center gap-1.5 rounded-none border border-[#E5E2DC] bg-white px-6 py-3 text-xs font-bold tracking-wider text-neutral-800 uppercase transition-all hover:bg-neutral-100"
+						className="inline-flex items-center justify-center gap-1.5 rounded-none border border-[#E5E2DC] bg-white px-6 py-3 text-xs font-bold tracking-wider text-neutral-800 uppercase transition-all duration-200 hover:bg-neutral-100 hover:border-black"
 					>
 						<span>Halaman Masuk</span>
 						<ArrowRight className="size-4" />

@@ -260,10 +260,12 @@ function LoginPage() {
 					<button
 						type="submit"
 						disabled={loading || lockoutSeconds > 0}
-						className="mt-6 flex w-full items-center justify-center gap-2 rounded-none bg-[#111111] py-3 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm disabled:opacity-50"
+						className="mt-6 flex w-full items-center justify-center gap-2 rounded-none bg-[#111111] py-3 text-xs font-bold tracking-wider !text-white text-white uppercase transition-all duration-300 hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg shadow-sm disabled:opacity-50 [&_svg]:!text-white [&_svg]:text-white"
 					>
-						<span>{loading ? "Memverifikasi..." : isSignUp ? "Daftar Akun" : "Masuk ke Akun"}</span>
-						<ArrowRight className="size-3.5" />
+						<span className="!text-white text-white">
+							{loading ? "Memverifikasi..." : isSignUp ? "Daftar Akun" : "Masuk ke Akun"}
+						</span>
+						<ArrowRight className="size-3.5 !text-white text-white" />
 					</button>
 				</form>
 			</div>

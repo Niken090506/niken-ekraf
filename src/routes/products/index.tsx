@@ -196,10 +196,10 @@ function ProductsPage() {
 							setEditingProduct(null);
 							setModalOpen(true);
 						}}
-						className="inline-flex items-center gap-1.5 rounded-none bg-[#111111] px-5 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm"
+						className="inline-flex items-center gap-1.5 rounded-none bg-[#111111] px-5 py-2.5 text-xs font-bold tracking-wider !text-white text-white uppercase transition-all duration-300 hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg shadow-sm [&_svg]:!text-white [&_svg]:text-white"
 					>
-						<Plus className="size-3.5" />
-						<span>Tambah Produk</span>
+						<Plus className="size-3.5 !text-white text-white" />
+						<span className="!text-white text-white">Tambah Produk</span>
 					</button>
 				</div>
 			}
@@ -231,26 +231,26 @@ function ProductsPage() {
 								onClick={() => setViewMode("grid")}
 								className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-bold tracking-wide uppercase transition-colors ${
 									viewMode === "grid"
-										? "bg-[#111111] text-white"
+										? "bg-[#111111] !text-white text-white [&_svg]:!text-white [&_svg]:text-white"
 										: "text-neutral-600 hover:text-black"
 								}`}
 								title="Tampilan Grid E-Commerce"
 							>
 								<Grid className="size-3.5" />
-								<span>Grid</span>
+								<span className={viewMode === "grid" ? "!text-white text-white" : ""}>Grid</span>
 							</button>
 							<button
 								type="button"
 								onClick={() => setViewMode("table")}
 								className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-bold tracking-wide uppercase transition-colors ${
 									viewMode === "table"
-										? "bg-[#111111] text-white"
+										? "bg-[#111111] !text-white text-white [&_svg]:!text-white [&_svg]:text-white"
 										: "text-neutral-600 hover:text-black"
 								}`}
 								title="Tampilan Tabel"
 							>
 								<List className="size-3.5" />
-								<span>Tabel</span>
+								<span className={viewMode === "table" ? "!text-white text-white" : ""}>Tabel</span>
 							</button>
 						</div>
 					</div>
@@ -270,7 +270,7 @@ function ProductsPage() {
 								{filteredData.map((product) => (
 									<div
 										key={product.id}
-										className="group flex flex-col justify-between rounded-xl border border-[#E5E2DC] bg-white p-4 shadow-xs transition-all hover:border-black hover:shadow-md"
+										className="group flex flex-col justify-between rounded-xl border border-[#E5E2DC] bg-white p-4 shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-black hover:shadow-xl"
 									>
 										{/* Product Image */}
 										<div className="relative aspect-square w-full overflow-hidden rounded-lg bg-[#F9F8F6]">
@@ -320,7 +320,7 @@ function ProductsPage() {
 															setEditingProduct(product);
 															setModalOpen(true);
 														}}
-														className="rounded-md border border-[#E5E2DC] bg-white p-1.5 text-neutral-700 hover:bg-neutral-100 hover:text-black"
+														className="rounded-md border border-[#E5E2DC] bg-white p-1.5 text-neutral-700 transition-all duration-200 hover:bg-neutral-100 hover:text-black hover:scale-110"
 														title="Edit Produk"
 													>
 														<Edit className="size-3.5" />
@@ -328,7 +328,7 @@ function ProductsPage() {
 													<Link
 														to="/products/$productId"
 														params={{ productId: product.id }}
-														className="rounded-md border border-[#E5E2DC] bg-white px-2.5 py-1 text-[11px] font-bold text-neutral-800 hover:bg-neutral-100"
+														className="rounded-md border border-[#E5E2DC] bg-white px-2.5 py-1 text-[11px] font-bold text-neutral-800 transition-all duration-200 hover:bg-neutral-100 hover:scale-105"
 														title="Detail Produk"
 													>
 														Detil
@@ -339,7 +339,7 @@ function ProductsPage() {
 															setDeleteId(product.id);
 															setDeleteError("");
 														}}
-														className="rounded-md border border-red-200 bg-red-50 p-1.5 text-red-600 hover:bg-red-100"
+														className="rounded-md border border-red-200 bg-red-50 p-1.5 text-red-600 transition-all duration-200 hover:bg-red-100 hover:scale-110"
 														title="Hapus Produk"
 													>
 														<Trash2 className="size-3.5" />
@@ -391,7 +391,10 @@ function ProductsPage() {
 								</thead>
 								<tbody className="divide-y divide-[#E5E2DC] text-neutral-800">
 									{table.getRowModel().rows.map((row) => (
-										<tr key={row.id} className="transition-colors hover:bg-[#F9F8F6]">
+										<tr
+											key={row.id}
+											className="transition-colors duration-200 hover:bg-neutral-50/90"
+										>
 											{row.getAllCells().map((cell) => (
 												<td key={cell.id} className="px-5 py-3.5">
 													{flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -451,7 +454,7 @@ function ProductsPage() {
 								<button
 									type="button"
 									onClick={() => setDeleteId(null)}
-									className="rounded-md border border-[#E5E2DC] bg-white px-4 py-2 text-xs font-bold text-neutral-700 hover:bg-neutral-100"
+									className="rounded-md border border-[#E5E2DC] bg-white px-4 py-2 text-xs font-bold text-neutral-700 hover:bg-neutral-100 transition-colors"
 								>
 									Batal
 								</button>
@@ -459,7 +462,7 @@ function ProductsPage() {
 									type="button"
 									onClick={confirmDelete}
 									disabled={deleteLoading}
-									className="rounded-md bg-red-600 px-4 py-2 text-xs font-bold text-white hover:bg-red-700 disabled:opacity-50"
+									className="rounded-md bg-red-600 px-4 py-2 text-xs font-bold !text-white hover:bg-red-700 disabled:opacity-50 transition-all duration-200 hover:-translate-y-0.5"
 								>
 									{deleteLoading ? "Menghapus..." : "Ya, Hapus"}
 								</button>

@@ -121,10 +121,10 @@ export function AdminShell({ children, title, subtitle, actions }: AdminShellPro
 								key={item.href}
 								to={item.href}
 								onClick={() => setMobileOpen(false)}
-								className={`flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-xs font-semibold tracking-wide transition-all ${
+								className={`flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-xs font-semibold tracking-wide transition-all duration-200 ${
 									active
-										? "bg-[#111111] text-white shadow-xs"
-										: "text-neutral-600 hover:bg-neutral-100 hover:text-black"
+										? "bg-[#111111] !text-white shadow-xs [&_svg]:!text-white"
+										: "text-neutral-600 hover:bg-neutral-100 hover:text-black hover:translate-x-0.5"
 								}`}
 							>
 								<Icon className="size-4 shrink-0" />
@@ -201,17 +201,17 @@ export function AdminShell({ children, title, subtitle, actions }: AdminShellPro
 								key={item.href}
 								to={item.href}
 								title={collapsed ? item.title : undefined}
-								className={`group flex items-center gap-3 rounded-lg py-2.5 font-semibold transition-all ${
+								className={`group flex items-center gap-3 rounded-lg py-2.5 font-semibold transition-all duration-200 ${
 									collapsed ? "justify-center px-0" : "px-3.5 text-xs tracking-wide"
 								} ${
 									active
-										? "bg-[#111111] text-white shadow-xs"
-										: "text-neutral-600 hover:bg-neutral-100 hover:text-black"
+										? "bg-[#111111] !text-white shadow-xs [&_svg]:!text-white"
+										: "text-neutral-600 hover:bg-neutral-100 hover:text-black hover:translate-x-0.5"
 								}`}
 							>
 								<Icon
 									className={`size-4 shrink-0 transition-transform group-hover:scale-105 ${
-										active ? "text-white" : "text-neutral-500"
+										active ? "!text-white" : "text-neutral-500"
 									}`}
 								/>
 								{!collapsed && <span>{item.title}</span>}

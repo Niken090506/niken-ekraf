@@ -115,29 +115,40 @@ export const seedAdmin = createServerFn({ method: "POST" }).handler(async () => 
 		const now = new Date().toISOString();
 		const sampleProducts = [
 			{
-				name: "Starter Kit Ekraf",
-				description: "Paket permulaan komprehensif bagi pelaku ekonomi kreatif digital.",
-				price: 49,
-				stock: 24,
+				name: "FoodLoop GIS Engine",
+				description:
+					"Platform logistik pangan & geospasial real-time untuk optimalisasi rantai pasok ekonomi kreatif kuliner lokal.",
+				price: 185,
+				stock: 15,
 				imageUrl:
-					"https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=512&auto=format&fit=crop&q=80",
+					"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=512&auto=format&fit=crop&q=80",
 			},
 			{
-				name: "Web3 Studio Suite",
-				description: "Perangkat studio terdesentralisasi untuk kreator aset 3D & animasi.",
-				price: 149,
-				stock: 12,
+				name: "UlosVerse AI Generative Suite",
+				description:
+					"Kecerdasan buatan pelestarian motif tenun Ulos tradisional resolusi tinggi untuk desainer grafis & kriya.",
+				price: 240,
+				stock: 8,
 				imageUrl:
 					"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=512&auto=format&fit=crop&q=80",
 			},
 			{
-				name: "Enterprise Sovereignty Node",
+				name: "Tenun Ikat Sumba Timur Heritage",
 				description:
-					"Sistem hosting mandiri in-memory berkecepatan tinggi dengan enkripsi menyeluruh.",
-				price: 499,
+					"Mahakarya kriya tekstil tradisional dengan pewarna alami akar mengkudu dan lumpur, ditenun tangan maestro pengrajin lokal.",
+				price: 320,
 				stock: 5,
 				imageUrl:
-					"https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=512&auto=format&fit=crop&q=80",
+					"https://images.unsplash.com/photo-1606744837616-56c9a5c6a6eb?w=512&auto=format&fit=crop&q=80",
+			},
+			{
+				name: "Saga Nusantara 3D Asset Pack",
+				description:
+					"Paket aset rigging 3D berstandar industri bertema arsitektur dan mitologi Nusantara untuk animator dan game developer.",
+				price: 195,
+				stock: 20,
+				imageUrl:
+					"https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=512&auto=format&fit=crop&q=80",
 			},
 		].map((p) => ({
 			id: crypto.randomUUID(),

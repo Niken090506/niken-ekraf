@@ -166,7 +166,7 @@ function NewProductPage() {
 								type="text"
 								value={name}
 								onChange={(e) => setName(e.target.value)}
-								placeholder="e.g. Minimalist Leather Sneaker"
+								placeholder="e.g. Platform GIS FoodLoop / Tenun Ikat Sumba"
 								required
 								className="w-full rounded-lg border border-[#E5E2DC] bg-white px-3.5 py-2.5 text-xs font-medium text-neutral-900 placeholder-neutral-400 focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
 							/>
@@ -326,10 +326,10 @@ function NewProductPage() {
 							<button
 								type="submit"
 								disabled={loading}
-								className="inline-flex items-center gap-2 rounded-none bg-[#111111] px-6 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm disabled:opacity-50"
+								className="inline-flex items-center gap-2 rounded-none bg-[#111111] px-6 py-2.5 text-xs font-bold tracking-wider !text-white text-white uppercase transition-all duration-300 hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg shadow-sm disabled:opacity-50 [&_svg]:!text-white [&_svg]:text-white"
 							>
-								{loading && <Loader2 className="size-3.5 animate-spin" />}
-								<span>Buat Produk</span>
+								{loading && <Loader2 className="size-3.5 animate-spin !text-white text-white" />}
+								<span className="!text-white text-white">Buat Produk</span>
 							</button>
 						</div>
 					</form>

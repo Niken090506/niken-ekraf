@@ -84,3 +84,58 @@ Seluruh halaman telah dirombak secara total dan disatukan agar mengadopsi bahasa
    - **Manajemen Pengguna (`/users` & `/users/$userId`):** Tabel pengguna putih bersih dengan tipografi yang sangat mudah dibaca, select dropdown peran yang elegan, serta proteksi keamanan anti self-demotion dan last admin guard.
    - **Setup & Auth (`/setup` & `/login`):** Kartu login dan setup putih bersih dengan tombol aksi tegas berwarna hitam pekat, form input responsif, dan pengamanan brute-force rate limiting.
 
+---
+
+## 4. Penyesuaian Header, Interaktivitas Tombol, & Warna Teks Tombol Utama
+
+1. **Penambahan Menu HOME pada Header:**
+   - Menambahkan tautan **HOME** di posisi paling kiri sebelum **KATALOG**, menghasilkan urutan navigasi: `HOME` | `KATALOG` | `DASHBOARD` | `PENGGUNA` | `SETUP`.
+   - Mengembalikan tata letak tombol kanan (pencarian, wishlist, keranjang, sesi pengguna) ke posisi proporsional dan elegan di dalam kontainer `max-w-7xl mx-auto px-6` (tidak didorong mentok ke ujung layar).
+
+2. **Fungsionalitas Interaktif Tombol Header:**
+   - **Search:** Mengaktifkan modal pencarian interaktif yang menyaring seluruh katalog produk secara real-time dan mengarahkan langsung ke detail produk.
+   - **Wishlist:** Tombol like interaktif terhubung dengan `useWishlist` (reactive store), menampilkan badge jumlah item, dan membuka drawer daftar item favorit.
+   - **Cart:** Tombol keranjang belanja interaktif terhubung dengan `useCart`, menampilkan badge jumlah produk, drawer rincian belanja, pengatur kuantitas (`+` / `-`), subtotal dinamis, dan tombol checkout.
+
+3. **Warna Teks & Ikon Tombol Utama (Wajib Putih):**
+   - Menegaskan aturan `text-white` dan `[&_svg]:text-white` pada varian `default` di `src/components/ui/button.tsx` serta seluruh tombol berlatar gelap (`bg-[#111111]`) di Beranda, Katalog, Dashboard, Modals, Setup, dan Login. Tidak ada lagi teks tombol yang gelap atau tidak terbaca.
+
+---
+
+## 5. Koreksi Konten Ekraf, Aturan Keras Teks Tombol Putih, & Efek Interaktif (Hover States)
+
+1. **Koreksi Konten: Kembali ke Ekonomi Kreatif Indonesia (Menghapus Produk Sepatu):**
+   - Menghapus 100% referensi produk alas kaki (*sneakers, boots, shoes, sepatu*) di seluruh aplikasi.
+   - Mengembalikan data sampel di `src/lib/server/auth.ts` (`seedAdmin`) dan etalase `CURATED_SHOWCASE` ke subsektor Ekonomi Kreatif Indonesia yang autentik:
+     - **FoodLoop GIS Engine:** Platform logistik pangan & geospasial real-time untuk optimalisasi rantai pasok ekonomi kreatif kuliner lokal.
+     - **UlosVerse AI Generative Suite:** Kecerdasan buatan pelestarian motif tenun Ulos tradisional resolusi tinggi untuk desainer grafis dan kriya.
+     - **Tenun Ikat Sumba Timur Heritage:** Mahakarya kriya tekstil tradisional dengan pewarna alami akar mengkudu dan lumpur, ditenun tangan maestro pengrajin lokal.
+     - **Saga Nusantara 3D Asset Pack:** Paket aset rigging 3D berstandar industri bertema arsitektur dan mitologi Nusantara untuk animator dan game developer.
+   - Narasi di Beranda (`src/routes/index.tsx`) disesuaikan sebagai platform kurasi dan tata kelola 16 subsektor ekonomi kreatif Nusantara (bukan toko sepatu retail).
+   - Ticker atas di Header disesuaikan menjadi "ETALASE RESMI 16 SUBSEKTOR EKONOMI KREATIF INDONESIA" dengan link kurasi dan panduan ekraf.
+
+2. **Aturan Keras Kontras Teks Tombol (Wajib Putih Bersih):**
+   - Menambahkan aturan CSS global di `src/styles.css` dengan `!important` untuk seluruh elemen tombol primer/gelap (`button.bg-[#111111]`, `button.bg-primary`, `[data-variant="default"]`, `[data-variant="destructive"]`, dan ikon SVG di dalamnya) agar seluruh label teks dan ikon **selalu berwarna putih murni (`#ffffff`)** tanpa terkecuali.
+   - Menambahkan kelas eksplisit `!text-white [&_svg]:!text-white` di seluruh komponen tombol aksi (`Button`, `ProductFormModal`, `products/index.tsx`, `products/new.tsx`, `products/$productId.tsx`, `dashboard.tsx`, `setup.tsx`, `login.tsx`, dan drawer keranjang Header).
+
+3. **Efek Interaktif & Hover States (Web Terasa Hidup & Elegan):**
+   - **Cards & Containers:** Menambahkan utility `.hover-lift` serta kelas `hover:-translate-y-1.5 hover:shadow-xl hover:border-black transition-all duration-300` pada seluruh kartu produk, kartu metrik statistik dashboard (dengan efek inversi warna ikon), dan kartu subsektor ekraf.
+   - **Image Zoom:** Menambahkan efek perbesaran gambar yang halus (`group-hover:scale-105 transition-transform duration-500`) saat kartu produk di-hover.
+   - **Buttons & Links:** Seluruh tombol memiliki efek transisi halus saat disentuh kursor (`hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300`), ikon panah bergeser dinamis (`group-hover:translate-x-1`), dan tombol aksi header memiliki pembesaran mikro (`hover:scale-110`).
+   - **Tables & Rows:** Baris tabel pada katalog produk, manajemen pengguna, dan dashboard admin memiliki transisi warna latar yang halus (`transition-colors duration-200 hover:bg-neutral-50/90`).
+
+---
+
+## 6. Penyempurnaan Akhir: Pemaksaan Teks Tombol Putih Murni & Penggantian Gambar Estetik Ekraf Section 2
+
+1. **Pemaksaan Mutlak Warna Teks & Ikon Tombol Utama (Wajib Putih Bersih):**
+   - **Isolasi Selector Global Anchor (`src/styles.css`):** Membatasi aturan `a { color: var(--lagoon-deep); }` dan `a:hover { color: var(--sea-ink); }` dengan pseudo-selector `:not([class*="bg-"]):not([class*="text-"]):not([class*="btn"])`. Hal ini mencegah browser secara otomatis mewarnai teks link tombol menjadi hitam saat di-hover maupun saat normal.
+   - **Aturan CSS Hover & Child Enforcement:** Menambahkan aturan CSS spesifik untuk seluruh tombol dan link berlatar gelap (`.bg-[#111111]`, `.bg-primary`, `[data-variant="default"]`, `[data-variant="destructive"]`) termasuk kondisi `:hover`, child element `*`, dan `svg` dengan `color: #ffffff !important`, `stroke: #ffffff !important`, dan `text-decoration: none !important`.
+   - **Penegasan Kelas Komponen:** Seluruh tombol aksi utama ("JELAJAHI KATALOG", "DASHBOARD ADMIN", "+ Tambah Produk", "JELAJAHI KOLEKSI EKRAF", "Buat Produk", "Simpan Perubahan", "Jalankan Seed Admin", "Masuk ke Akun", dan "Proses Checkout") dipastikan memiliki kelas ganda `!text-white text-white [&_svg]:!text-white [&_svg]:text-white` baik pada tag pembungkus maupun tag `<span>` di dalamnya.
+
+2. **Penggantian Gambar Section Kedua Beranda (`src/routes/index.tsx`):**
+   - Menghapus gambar gradasi warna abstrak fluid (ungu-oranye) pada section *"WARISAN BUDAYA INOVASI DIGITAL"*.
+   - Menggantikannya dengan fotografi editorial kurasi karya ekonomi kreatif beresolusi tinggi bertema **Desain Interior & Kriya Kontemporer Nusantara** (`https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=85`) yang menampilkan studio atelier arsitektur modern berhiaskan keramik kriya buatan tangan, pencahayaan alami yang hangat, serta lengkungan bingkai `rounded-2xl` dengan efek zoom hover yang halus.
+
+
+

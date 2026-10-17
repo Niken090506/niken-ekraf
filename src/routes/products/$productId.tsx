@@ -406,10 +406,10 @@ function EditProductForm({ product }: { product: Product }) {
 					<button
 						type="submit"
 						disabled={loading}
-						className="inline-flex items-center gap-2 rounded-none bg-[#111111] px-6 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm disabled:opacity-50"
+						className="inline-flex items-center gap-2 rounded-none bg-[#111111] px-6 py-2.5 text-xs font-bold tracking-wider !text-white text-white uppercase transition-all duration-300 hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg shadow-sm disabled:opacity-50 [&_svg]:!text-white [&_svg]:text-white"
 					>
-						{loading && <Loader2 className="size-3.5 animate-spin" />}
-						<span>Simpan Perubahan</span>
+						{loading && <Loader2 className="size-3.5 animate-spin !text-white text-white" />}
+						<span className="!text-white text-white">Simpan Perubahan</span>
 					</button>
 				</div>
 			</form>

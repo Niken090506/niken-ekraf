@@ -50,10 +50,10 @@ function Dashboard() {
 				<div className="flex items-center gap-2">
 					<Link
 						to="/products/new"
-						className="inline-flex items-center gap-1.5 rounded-none bg-[#111111] px-5 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition-all hover:bg-neutral-800 shadow-sm"
+						className="inline-flex items-center gap-1.5 rounded-none bg-[#111111] px-5 py-2.5 text-xs font-bold tracking-wider !text-white text-white uppercase transition-all duration-300 hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg shadow-sm [&_svg]:!text-white [&_svg]:text-white"
 					>
-						<Plus className="size-3.5" />
-						<span>Tambah Produk</span>
+						<Plus className="size-3.5 !text-white text-white" />
+						<span className="!text-white text-white">Tambah Produk</span>
 					</Link>
 				</div>
 			}
@@ -133,7 +133,10 @@ function Dashboard() {
 									</thead>
 									<tbody className="divide-y divide-[#E5E2DC] text-neutral-800">
 										{products.slice(0, 5).map((p) => (
-											<tr key={p.id} className="transition-colors hover:bg-[#F9F8F6]">
+											<tr
+												key={p.id}
+												className="transition-colors duration-200 hover:bg-neutral-50/90"
+											>
 												<td className="py-3 pr-4">
 													<div className="flex items-center gap-3">
 														{p.imageUrl ? (
@@ -173,7 +176,7 @@ function Dashboard() {
 													<Link
 														to="/products/$productId"
 														params={{ productId: p.id }}
-														className="rounded-md border border-[#E5E2DC] bg-white px-3 py-1 text-[11px] font-bold text-neutral-800 transition-colors hover:bg-neutral-100 hover:text-black"
+														className="rounded-md border border-[#E5E2DC] bg-white px-3 py-1 text-[11px] font-bold text-neutral-800 transition-all duration-200 hover:bg-neutral-100 hover:text-black hover:scale-105"
 													>
 														Edit
 													</Link>
@@ -250,12 +253,12 @@ function MetricCard({
 	trend: string;
 }) {
 	return (
-		<div className="rounded-xl border border-[#E5E2DC] bg-white p-5 shadow-xs transition-all hover:border-black hover:shadow-sm">
+		<div className="group rounded-xl border border-[#E5E2DC] bg-white p-5 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-black hover:shadow-lg">
 			<div className="flex items-center justify-between">
-				<span className="text-[10px] font-bold tracking-wider text-neutral-500 uppercase">
+				<span className="text-[10px] font-bold tracking-wider text-neutral-500 uppercase transition-colors group-hover:text-black">
 					{title}
 				</span>
-				<div className="flex size-8 items-center justify-center rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] text-neutral-800">
+				<div className="flex size-8 items-center justify-center rounded-lg border border-[#E5E2DC] bg-[#F9F8F6] text-neutral-800 transition-all duration-300 group-hover:bg-[#111111] group-hover:text-white group-hover:scale-110">
 					<Icon className="size-4" />
 				</div>
 			</div>

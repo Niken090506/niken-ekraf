@@ -186,14 +186,14 @@ body {
 	background: color-mix(in oklab, var(--sea-ink) 18%, transparent);
 }
 
-a {
+a:not([class*="bg-"]):not([class*="text-"]):not([class*="btn"]) {
 	color: var(--lagoon-deep);
 	text-decoration-color: color-mix(in oklab, var(--sea-ink) 30%, transparent);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 2px;
 }
 
-a:hover {
+a:not([class*="bg-"]):not([class*="text-"]):not([class*="btn"]):hover {
 	color: var(--sea-ink);
 }
 
@@ -263,8 +263,129 @@ pre code {
 button,
 .island-shell,
 a {
-	transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform
-		180ms ease;
+	transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform
+		200ms ease, box-shadow 200ms ease;
+}
+
+/* ==============================================================
+   ATURAN KERAS: Tombol Utama & Berlatar Gelap Wajib Teks Putih
+   ============================================================== */
+button.bg-\[\#111111\],
+button.bg-primary,
+button.bg-neutral-900,
+button.bg-neutral-950,
+button.bg-black,
+a.bg-\[\#111111\],
+a.bg-primary,
+a.bg-neutral-900,
+a.bg-neutral-950,
+a.bg-black,
+.btn-primary,
+[data-variant="default"],
+[data-variant="destructive"] {
+	color: #ffffff !important;
+	text-decoration: none !important;
+}
+
+button.bg-\[\#111111\]:hover,
+button.bg-primary:hover,
+button.bg-neutral-900:hover,
+button.bg-neutral-950:hover,
+button.bg-black:hover,
+a.bg-\[\#111111\]:hover,
+a.bg-primary:hover,
+a.bg-neutral-900:hover,
+a.bg-neutral-950:hover,
+a.bg-black:hover,
+.btn-primary:hover,
+[data-variant="default"]:hover,
+[data-variant="destructive"]:hover {
+	color: #ffffff !important;
+	text-decoration: none !important;
+}
+
+button.bg-\[\#111111\] *,
+button.bg-primary *,
+button.bg-neutral-900 *,
+button.bg-neutral-950 *,
+button.bg-black *,
+a.bg-\[\#111111\] *,
+a.bg-primary *,
+a.bg-neutral-900 *,
+a.bg-neutral-950 *,
+a.bg-black *,
+.btn-primary *,
+[data-variant="default"] *,
+[data-variant="destructive"] * {
+	color: #ffffff !important;
+}
+
+button.bg-\[\#111111\]:hover *,
+button.bg-primary:hover *,
+button.bg-neutral-900:hover *,
+button.bg-neutral-950:hover *,
+button.bg-black:hover *,
+a.bg-\[\#111111\]:hover *,
+a.bg-primary:hover *,
+a.bg-neutral-900:hover *,
+a.bg-neutral-950:hover *,
+a.bg-black:hover *,
+.btn-primary:hover *,
+[data-variant="default"]:hover *,
+[data-variant="destructive"]:hover * {
+	color: #ffffff !important;
+}
+
+button.bg-\[\#111111\] svg,
+button.bg-primary svg,
+button.bg-neutral-900 svg,
+button.bg-neutral-950 svg,
+button.bg-black svg,
+a.bg-\[\#111111\] svg,
+a.bg-primary svg,
+a.bg-neutral-900 svg,
+a.bg-neutral-950 svg,
+a.bg-black svg,
+.btn-primary svg,
+[data-variant="default"] svg,
+[data-variant="destructive"] svg {
+	color: #ffffff !important;
+	stroke: #ffffff !important;
+	fill: none;
+}
+
+button.bg-\[\#111111\]:hover svg,
+button.bg-primary:hover svg,
+button.bg-neutral-900:hover svg,
+button.bg-neutral-950:hover svg,
+button.bg-black:hover svg,
+a.bg-\[\#111111\]:hover svg,
+a.bg-primary:hover svg,
+a.bg-neutral-900:hover svg,
+a.bg-neutral-950:hover svg,
+a.bg-black:hover svg,
+.btn-primary:hover svg,
+[data-variant="default"]:hover svg,
+[data-variant="destructive"]:hover svg {
+	color: #ffffff !important;
+	stroke: #ffffff !important;
+}
+
+/* Specific filled svg exceptions (like solid icons) */
+button.bg-\[\#111111\] svg.fill-white,
+a.bg-\[\#111111\] svg.fill-white {
+	fill: #ffffff !important;
+}
+
+/* Smooth Interactive Hover Lift Utility */
+.hover-lift {
+	transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms
+		cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease;
+}
+
+.hover-lift:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 14px 28px -6px rgba(0, 0, 0, 0.08), 0 8px 12px -4px rgba(0, 0, 0, 0.04);
 }
 
 .island-kicker {
