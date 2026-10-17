@@ -11,14 +11,22 @@ import { type Role, getUserRole } from "./db";
  * `getRequest()`.
  */
 export async function getCurrentSession() {
-	const request = getRequest();
-	const result = await auth.api.getSession({
-		headers: request.headers,
-	});
-	return {
-		session: result?.session ?? null,
-		user: result?.user ?? null,
-	};
+	try {
+		const request = getRequest();
+		const result = await auth.api.getSession({
+			headers: request.headers,
+		});
+		return {
+			session: result?.session ?? null,
+			user: result?.user ?? null,
+		};
+	} catch (err) {
+		console.error("Session lookup error:", err);
+		return {
+			session: null,
+			user: null,
+		};
+	}
 }
 
 export async function requireAuth() {

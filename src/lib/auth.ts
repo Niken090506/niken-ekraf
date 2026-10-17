@@ -3,8 +3,14 @@ import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 import { adapter } from "./db";
 
+const AUTH_SECRET =
+	process.env.BETTER_AUTH_SECRET ||
+	"55f312d3505d2b458909338127a8d56d4d6b2add4bced4b919600e04805a3dc6";
+
 export const auth = betterAuth({
 	database: adapter,
+	secret: AUTH_SECRET,
+	baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
 	emailAndPassword: {
 		enabled: true,
 		requireEmailVerification: false,
